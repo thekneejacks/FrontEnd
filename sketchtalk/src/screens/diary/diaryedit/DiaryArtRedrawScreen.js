@@ -5,8 +5,10 @@ import {
   ImageBackground,
   Image,
   Pressable,
+  ActivityIndicator,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import Modal from 'react-native-modal';
 import ConfirmText from '../../../components/confirmtext';
 import ConfirmButton from '../../../components/confirmbutton';
 import colors from '../../../constants/colors';
@@ -23,16 +25,12 @@ export default function DiaryArtRedrawScreen({route}) {
   const [artConfirmModalVisible, setArtConfirmModalVisible] = useState(false);
 
   const navigation = useNavigation();
-  function TempNavigate(image_url) {
-    navigation.navigate('DiaryResultScreen', {
-      image_url: 'image_url', //new image
-      ...route.params,
-    });
-  }
 
   const {diaryId, content, style_name, image_url} = route.params;
   useEffect(() => {
-    useDiaryGetArtFetch.mutate({
+    console.log(style_name);
+    console.log(image_url);
+    useDiaryRedrawImageFetch.mutate({
       diaryId: diaryId,
       content: content,
       style: style_name,
@@ -52,13 +50,17 @@ export default function DiaryArtRedrawScreen({route}) {
         },
       });
     },
+    onSuccess: data => {
+      console.log(data.data.data);
+    },
     onError: error => {
-      console.warn('diaryGetArt ' + error);
+      console.warn('diaryRedraw ' + error);
     },
   });
 
   //그림 승인
 
+  const ls = require('local-storage');
   const useDiaryConfirmArtFetch = useMutation({
     mutationFn: newTodo => {
       const token = ls('token');
@@ -99,9 +101,9 @@ export default function DiaryArtRedrawScreen({route}) {
 
   const confirmNewArt = () => {
     useDiaryConfirmArtFetch.mutate({
-      diaryId: useDiaryGetArtFetch.data.data.data.diaryId,
-      style: useDiaryGetArtFetch.data.data.data.style,
-      imageUrl: useDiaryGetArtFetch.data.data.data.imageUrl,
+      diaryId: useDiaryRedrawImageFetch.data.data.data.diaryId,
+      style: useDiaryRedrawImageFetch.data.data.data.style,
+      imageUrl: useDiaryRedrawImageFetch.data.data.data.imageURL,
     });
   };
 
@@ -112,14 +114,14 @@ export default function DiaryArtRedrawScreen({route}) {
       {artConfirmModalVisible && (
         <ConfirmArtModal isVisible={artConfirmModalVisible} />
       )}
-      {useDiaryGetArtFetch.isPending && (
+      {useDiaryRedrawImageFetch.isPending && (
         <DiaryLoadingScreen
           width={width}
           //onPress={() => setIsLoading(false)}
           loadingText={'또리가 그림을 그리는 중...'}
         />
       )}
-      {useDiaryGetArtFetch.isError && (
+      {useDiaryRedrawImageFetch.isError && (
         <DiaryLoadingScreen
           width={width}
           //onPress={() => setIsLoading(false)}
@@ -142,12 +144,12 @@ export default function DiaryArtRedrawScreen({route}) {
             그림을 선택해주세요.
           </Text>
           <DiaryRedrawArtDisplay
-            image_url={useDiaryRedrawImageFetch.data.data.data.prevImageUrl}
+            image_url={image_url}
             text={'이전 그림'}
             onPress={() => confirmOldArt()}
           />
           <DiaryRedrawArtDisplay
-            image_url={useDiaryRedrawImageFetch.data.data.data.imageUrl}
+            image_url={useDiaryRedrawImageFetch.data.data.data.imageURL}
             text={'새로 그린 그림'}
             onPress={() => confirmNewArt()}
           />
@@ -178,13 +180,24 @@ const DiaryRedrawArtDisplay = props => (
           fontFamily: 'MangoDdobak-B',
           includeFontPadding: false,
           textAlign: 'left',
+          color: colors.redBrown,
           width: width * 0.9,
           marginBottom: 15,
         }}>
         {props.text}
       </Text>
       <Pressable onPress={props.onPress}>
-        <Image source={{uri: props.image_url}} />
+        <Image
+          style={{
+            width: width * 0.9,
+            height: 230,
+            resizeMode: 'cover',
+            borderWidth: 1,
+            borderColor: colors.gray400,
+          }}
+          resizeMethod="scale"
+          source={{uri: props.image_url}}
+        />
       </Pressable>
     </View>
   </View>
@@ -235,6 +248,7 @@ const ConfirmArtModal = props => (
               fontFamily: 'MangoDdobak-R',
               includeFontPadding: false,
               flex: 1,
+              color: colors.redBrown,
               marginTop: 15,
             }}>
             잠시만 기다려 주세요...

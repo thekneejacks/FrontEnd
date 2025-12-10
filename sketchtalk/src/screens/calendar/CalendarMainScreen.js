@@ -561,17 +561,28 @@ const CalendarPreviewModal = props => (
             borderRadius: 20,
           }}
         />
-        <Image
+        <View
           style={{
             flex: 4,
+            top: 40,
+            justifyContent: 'flex-start',
+            alignItems: 'center',
             width: width * 0.9,
-            height: 200,
-            top: -10,
-            alignSelf: 'center',
-          }}
-          resizeMode="contain"
-          source={props.imageUrl}
-        />
+          }}>
+          <Image
+            style={{
+              width: width * 0.9,
+              height: 200,
+              resizeMode: 'cover',
+              borderWidth: 1,
+              borderColor: colors.gray400,
+
+              alignSelf: 'center',
+            }}
+            resizeMode="scale"
+            source={props.imageUrl}
+          />
+        </View>
         <View
           style={{
             flex: 1,

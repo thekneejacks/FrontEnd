@@ -91,7 +91,7 @@ export default function DiaryResultScreen({route}) {
     !isCalendar && confirmArt
       ? useDiaryConfirmArtFetch(diaryId, image_url)
       : useDiaryViewQueryFetch(diaryId);*/
-  const {isCalendar, diaryId, image_url, confirmArt} = route.params;
+  const {isCalendar, diaryId} = route.params;
   //const {isPending, isError, data, error} = useDiaryViewQueryFetch(diaryId);
 
   //뒤로가기
@@ -129,6 +129,9 @@ export default function DiaryResultScreen({route}) {
     },
     onSuccess: data => {
       console.log(data.data.data);
+      if (data.data.data.achievedResult !== undefined) {
+        setAchievementModalVisible(true);
+      }
     },
   });
 
@@ -152,6 +155,7 @@ export default function DiaryResultScreen({route}) {
       title: useDiaryViewQueryFetch.data.data.data.title,
       content: useDiaryViewQueryFetch.data.data.data.content,
       emotion: useDiaryViewQueryFetch.data.data.data.emotion,
+      image_url: useDiaryViewQueryFetch.data.data.data.imageUrl,
       ...route.params,
     });
   }

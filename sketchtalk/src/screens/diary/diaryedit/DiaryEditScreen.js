@@ -5,6 +5,7 @@ import {
   ImageBackground,
   Pressable,
   TextInput,
+  ActivityIndicator,
   Modal,
 } from 'react-native';
 import {React, useEffect, useState} from 'react';
@@ -19,15 +20,12 @@ import axios from 'axios';
 
 const {width, height} = Dimensions.get('window');
 
-const dummyData = {
-  title: '축구하다가 넘어졌지만 재밌었어!',
-  content:
-    '오늘 학교에서 친구들이랑 운동장에서 축구를 했다. 나는 열심히 뛰다가 그만 넘어져서 무릎이 좀 아팠다. 그래도 친구들이 걱정해줘서 기분이 좋았고, 계속 같이 놀았다. 골은 못 넣었지만 친구들이랑 뛰어다니는 게 너무 재미있었다. 내일도 또 축구하고 싶다!',
-};
-
 export default function DiaryEditScreen({route}) {
   const [value, onChangeContentText] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
+  const [confirmRedrawModalVisible, setConfirmRedrawModalVisible] =
+    useState(false);
+  const [editInProgressModalVisible, setEditInProgressModalVisible] =
+    useState(false);
   const navigation = useNavigation();
   function TempNavigateToResultScreen() {
     navigation.navigate('DiaryResultScreen', {
@@ -38,6 +36,7 @@ export default function DiaryEditScreen({route}) {
   function TempNavigateToRedrawScreen() {
     navigation.navigate('DiaryEditChooseArtstyleScreen', {
       confirmArt: true,
+      content: useDiaryEditFetch.data.data.data.content,
       ...route.params,
     });
   }
@@ -60,12 +59,17 @@ export default function DiaryEditScreen({route}) {
       });
     },
 
+    onMutate: () => {
+      setEditInProgressModalVisible(true);
+    },
+
     onError: error => {
       console.warn('diaryEdit ' + error);
     },
 
     onSuccess: () => {
-      TempNavigateToResultScreen();
+      setEditInProgressModalVisible(false);
+      setConfirmRedrawModalVisible(true);
     },
   });
 
@@ -98,23 +102,84 @@ export default function DiaryEditScreen({route}) {
       <ConfirmButton
         text={'저장'}
         color={colors.primary}
-        onPress={() => setModalVisible(true)}
+        onPress={() => editDiary()}
       />
+      <EditInProgressModal isVisible={editInProgressModalVisible} />
       <ConfirmRedrawPopup
-        modalVisible={modalVisible}
-        closeOnPress={() => setModalVisible(false)}
+        modalVisible={confirmRedrawModalVisible}
+        closeOnPress={() => setConfirmRedrawModalVisible(false)}
         yesOnPress={() => {
-          setModalVisible(false);
-          editDiary();
+          setConfirmRedrawModalVisible(false);
+          TempNavigateToRedrawScreen();
         }}
         noOnPress={() => {
-          setModalVisible(false);
-          editDiary();
+          setConfirmRedrawModalVisible(false);
+          TempNavigateToResultScreen();
         }}
       />
     </Background>
   );
 }
+
+const EditInProgressModal = props => (
+  <Modal
+    visible={props.isVisible}
+    animationIn="none"
+    animationInTiming={1}
+    animationOutTiming={1}
+    onBackdropPress={props.onBackdropPress}>
+    <View
+      style={{
+        height: height,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      <View
+        style={{
+          width: width,
+          height: height,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          position: 'absolute',
+        }}
+      />
+      <View
+        style={{
+          backgroundColor: 'white',
+          width: 327,
+          height: 223,
+          mixBlendMode: 'normal',
+          borderRadius: 20,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <View
+          style={{
+            width: 300,
+            height: 203,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <View style={{flex: 1}} />
+          <Text
+            style={{
+              fontSize: 16,
+              fontFamily: 'MangoDdobak-R',
+              includeFontPadding: false,
+              color: colors.redBrown,
+              flex: 1,
+              marginTop: 15,
+            }}>
+            잠시만 기다려 주세요...
+          </Text>
+          <View style={{flex: 1, flexDirection: 'row'}}>
+            {/*put circle loading screen here*/}
+            <ActivityIndicator size="large" color={colors.primary} />
+          </View>
+        </View>
+      </View>
+    </View>
+  </Modal>
+);
 
 const ConfirmRedrawPopup = props => (
   <Modal

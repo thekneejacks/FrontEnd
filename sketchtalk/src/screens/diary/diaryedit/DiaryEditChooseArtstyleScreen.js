@@ -107,6 +107,7 @@ const MessageItem = item => (
         alignSelf: 'flex-end',
         fontSize: 14,
         lineHeight: 30,
+        color: colors.redBrown,
         fontFamily: 'MangoDdobak-R',
       }}>
       {item.display_name}
