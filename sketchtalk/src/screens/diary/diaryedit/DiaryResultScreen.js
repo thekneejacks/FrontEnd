@@ -26,6 +26,7 @@ import ViewShot from 'react-native-view-shot';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 import {useMutation} from '@tanstack/react-query';
 import axios from 'axios';
+import {synthesizeSpeech} from '../api/DiaryTTS';
 
 const {width, height} = Dimensions.get('window');
 
@@ -132,6 +133,9 @@ export default function DiaryResultScreen({route}) {
       if (data.data.data.achievedResult !== undefined) {
         setAchievementModalVisible(true);
       }
+      if (!isCalendar) {
+        synthesizeSpeech(data.data.data.comment);
+      }
     },
   });
 
@@ -223,8 +227,10 @@ export default function DiaryResultScreen({route}) {
           />
           <CharacterCommentDisplay
             commentText={useDiaryViewQueryFetch.data.data.data.comment}
-            onPress={isCalendar =>
-              isCalendar ? TempNavigateToCalendar() : TempNavigateToHome()
+            onPress={
+              isCalendar
+                ? () => TempNavigateToCalendar()
+                : () => TempNavigateToHome()
             }
             isCalendar={isCalendar}
           />

@@ -105,7 +105,7 @@ export const initializeAudio = async callback => {
 
       recognizer.recognizing = (s, e) => {
         //The recognizer will return partial results. This is not called when recognition is stopped and sentences are formed but when recognizer picks up scraps of words on-the-fly.
-        console.log(`RECOGNIZING: Text=${e.result.text}`);
+        //console.log(`RECOGNIZING: Text=${e.result.text}`);
         console.log(e.result.text);
         console.log(e.sessionId);
       };
@@ -115,6 +115,7 @@ export const initializeAudio = async callback => {
         console.log(e.result);
         callback(e.result.text);
       };
+
       recognizer.startContinuousRecognitionAsync(
         () => {
           console.log('startContinuousRecognitionAsync');

@@ -3,3 +3,4 @@
 export const key = '';
 export const region = '';
 export const language = 'ko-KR';
+export const voice = 'ko-KR-SeoHyeonNeural';

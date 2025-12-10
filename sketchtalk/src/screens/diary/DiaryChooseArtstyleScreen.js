@@ -9,10 +9,11 @@ import {
   StyleSheet,
 } from 'react-native';
 import colors from '../../constants/colors';
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import ConfirmText from '../../components/confirmtext';
 import styled from 'styled-components';
 import {useNavigation} from '@react-navigation/native';
+import {synthesizeSpeech} from './api/DiaryTTS';
 
 const {width, height} = Dimensions.get('window');
 
@@ -42,6 +43,11 @@ export default function DiaryChooseArtstyleScreen({route}) {
       ...route.params,
     });
   }
+
+  useEffect(() => {
+    synthesizeSpeech('어떤 스타일로 그려줄까?');
+  }, []);
+
   return (
     <Background
       source={require('../../assets/background/yellow_bg.png')}

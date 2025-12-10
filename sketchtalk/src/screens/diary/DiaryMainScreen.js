@@ -51,6 +51,7 @@ export default function DiaryMainScreen() {
       isWaitingReply: false,
       text: dialog,
     });
+    synthesizeSpeech(dialog);
   }
 
   function AddWaitingMessage() {
@@ -109,13 +110,11 @@ export default function DiaryMainScreen() {
     useDiaryChatFetch.mutate({dialog: userDialog});
     AddUserMessage(userDialog, false);
     //the rest is handled by useDiaryChatFetch
-    /*AddWaitingMessage();
-    setTimeout(() => {
-      setIsWaitingReply(false);
-      AddFetchedMessage('답변이야 답변이야 답변이야');
-    }, 10000);*/
+  }
 
-    //AddMessage(data.data.reply, true);
+  async function STT(resultText) {
+    console.log('got this: ' + resultText);
+    FetchMessage(resultText);
   }
 
   return (
@@ -133,8 +132,9 @@ export default function DiaryMainScreen() {
       />
       {!isSufficient ? (
         <MicButton
-          //onPressIn={() => initializeAudio(FetchMessage)}
-          onPress={TempNavigate}
+          onPressIn={() => initializeAudio(STT)}
+          onPress={() => stopAudio()}
+          //onPress={TempNavigate}
           isWaitingReply={isWaitingReply}
           isSufficient={isSufficient}
           useDiaryChatFetch_isPending={useDiaryChatFetch.isPending}

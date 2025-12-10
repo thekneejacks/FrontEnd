@@ -10,13 +10,10 @@ import {
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import Modal from 'react-native-modal';
-import ConfirmText from '../../../components/confirmtext';
-import ConfirmButton from '../../../components/confirmbutton';
 import colors from '../../../constants/colors';
 import styled from 'styled-components';
 import {DiaryLoadingScreen} from '../component/DiaryLoadingScreen';
 import {useNavigation} from '@react-navigation/native';
-import {useDiaryRedrawImageFetch} from '../api/DiaryFetch';
 import {useMutation} from '@tanstack/react-query';
 import axios from 'axios';
 

@@ -17,6 +17,7 @@ import {DiaryLoadingScreen} from './component/DiaryLoadingScreen';
 import {useNavigation} from '@react-navigation/native';
 import {useMutation} from '@tanstack/react-query';
 import axios from 'axios';
+import {synthesizeSpeech} from './api/DiaryTTS';
 
 const {width, height} = Dimensions.get('window');
 
@@ -39,6 +40,10 @@ export default function DiaryConfirmArtScreen({route}) {
     },
     onError: error => {
       console.warn('diaryGetArt ' + error);
+    },
+
+    onSuccess: () => {
+      synthesizeSpeech('다시 그려줄까?');
     },
   });
 

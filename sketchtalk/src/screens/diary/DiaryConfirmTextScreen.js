@@ -15,6 +15,7 @@ import Modal from 'react-native-modal';
 import {DiaryLoadingScreen} from './component/DiaryLoadingScreen';
 import {useNavigation} from '@react-navigation/native';
 import {useMutation} from '@tanstack/react-query';
+import {synthesizeSpeech} from './api/DiaryTTS';
 import axios from 'axios';
 
 const {width, height} = Dimensions.get('window');
@@ -46,7 +47,9 @@ export default function DiaryConfirmTextScreen() {
       console.warn('diaryGetText ' + error);
     },
 
-    onSuccess: data => {},
+    onSuccess: () => {
+      synthesizeSpeech('다시 써볼까?');
+    },
   });
 
   useEffect(() => {
