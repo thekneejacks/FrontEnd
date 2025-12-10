@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 import colors from '../constants/colors';
+import BlinkView from 'react-native-blink-view';
 import {
   ImageBackground,
   Pressable,
@@ -63,6 +64,18 @@ const CharacterImage = props => (
         source={require('../assets/character/home_comment.png')}
       />
     </View>
+    <BlinkView style={{flex: 1, top: 30}} delay={1500}>
+      <Text
+        style={{
+          flex: 1,
+          color: colors.redBrown,
+          fontFamily: 'MangoDdobak-R',
+          fontSize: 13,
+          textAlignVertical: 'center',
+        }}>
+        캐릭터를 누르면 일기를 쓰러 갈 수 있어요!
+      </Text>
+    </BlinkView>
   </Pressable>
 );
 

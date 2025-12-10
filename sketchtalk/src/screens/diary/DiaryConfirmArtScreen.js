@@ -90,6 +90,7 @@ export default function DiaryConfirmArtScreen({route}) {
       console.log('yes');
       console.log(diaryId);
     }
+    console.log(width);
     console.log(content);
     console.log(style_name);
     useDiaryGetArtFetch.mutate({
@@ -168,14 +169,21 @@ const DiaryArtDisplay = props => (
     }}>
     <View
       style={{
-        height: 100,
+        height: 150,
         justifyContent: 'flex-start',
         alignItems: 'center',
         width: width * 0.9,
       }}>
       <Image
-        style={{width: width * 0.9, height: 100}}
-        resizeMode={'contain'}
+        //width: 360
+        style={{
+          width: width * 0.9,
+          height: 230,
+          resizeMode: 'cover',
+          borderWidth: 1,
+          borderColor: colors.gray400,
+        }}
+        resizeMethod="scale"
         source={{uri: props.imageUrl}}
       />
     </View>
