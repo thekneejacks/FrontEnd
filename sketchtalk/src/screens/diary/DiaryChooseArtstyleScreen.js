@@ -6,6 +6,7 @@ import {
   Image,
   FlatList,
   Pressable,
+  StyleSheet,
 } from 'react-native';
 import colors from '../../constants/colors';
 import React, {useState} from 'react';
@@ -95,7 +96,7 @@ const MessageItem = item => (
         width: 150,
         height: 150,
         elevation: 1,
-        borderWidth: 1,
+        borderWidth: StyleSheet.hairlineWidth,
         borderColor: colors.gray400,
       }}
       resizeMode="contain"

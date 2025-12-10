@@ -70,7 +70,7 @@ const CharacterImage = props => (
           flex: 1,
           color: colors.redBrown,
           fontFamily: 'MangoDdobak-R',
-          fontSize: 13,
+          fontSize: 14,
           textAlignVertical: 'center',
         }}>
         캐릭터를 누르면 일기를 쓰러 갈 수 있어요!

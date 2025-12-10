@@ -6,6 +6,7 @@ import {
   Image,
   Pressable,
   ActivityIndicator,
+  StyleSheet,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import Modal from 'react-native-modal';
@@ -192,7 +193,7 @@ const DiaryRedrawArtDisplay = props => (
             width: width * 0.9,
             height: 230,
             resizeMode: 'cover',
-            borderWidth: 1,
+            borderWidth: StyleSheet.hairlineWidth,
             borderColor: colors.gray400,
           }}
           resizeMethod="scale"

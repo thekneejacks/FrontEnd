@@ -124,6 +124,7 @@ export default function DiaryEditScreen({route}) {
 const EditInProgressModal = props => (
   <Modal
     visible={props.isVisible}
+    transparent={true}
     animationIn="none"
     animationInTiming={1}
     animationOutTiming={1}

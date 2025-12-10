@@ -8,6 +8,7 @@ import {
   FlatList,
   Image,
   ActivityIndicator,
+  StyleSheet,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
@@ -574,12 +575,11 @@ const CalendarPreviewModal = props => (
               width: width * 0.9,
               height: 200,
               resizeMode: 'cover',
-              borderWidth: 1,
+              borderWidth: StyleSheet.hairlineWidth,
               borderColor: colors.gray400,
-
+              borderRadius: 10,
               alignSelf: 'center',
             }}
-            resizeMode="scale"
             source={props.imageUrl}
           />
         </View>
@@ -732,21 +732,33 @@ const CalendarListViewItem = item => (
       justifyContent: 'center',
     }}
     onPress={item.onPress}>
-    <ImageBackground
-      style={{width: 150, height: 129}}
-      resizeMode="contain"
-      source={require('../../assets/soccer_diary.png')}>
+    <View style={{width: 150, height: 129, alignItems: 'center'}}>
+      <Image
+        style={{
+          width: 140,
+          height: 105,
+          overflow: 'hidden',
+          borderRadius: 10,
+          borderWidth: StyleSheet.hairlineWidth,
+          borderColor: colors.gray400,
+          top: 15,
+          resizeMode: 'cover',
+        }}
+        source={{uri: item.imageUrl}}
+      />
       <Image
         style={{
           width: 50,
           height: 50,
+          left: 105,
+          top: 4,
           position: 'absolute',
           alignSelf: 'flex-end',
         }}
         resizeMode="contain"
         source={getEmoticon(item.emotion)}
       />
-    </ImageBackground>
+    </View>
     <View style={{width: 162, height: 60}}>
       <Text
         style={{
