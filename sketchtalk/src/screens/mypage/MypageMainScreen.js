@@ -12,6 +12,7 @@ import MypageField from '../../components/mypagefield';
 import Popup from '../../components/popup';
 import {useQuery} from '@tanstack/react-query';
 import {logoutUser, deleteUser} from '../../api/auth';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {getUserInfo} from '../../api/setting';
 
 const {width, height} = Dimensions.get('window');
@@ -20,6 +21,7 @@ export default function MypageMainScreen({navigation}) {
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [withdrawOpen, setWithdrawOpen] = useState(false);
   const [withdrawDoneOpen, setWithdrawDoneOpen] = useState(false);
+  const insets = useSafeAreaInsets();
 
   const {data, isLoading, error} = useQuery({
     queryKey: ['setting'],
@@ -54,7 +56,16 @@ export default function MypageMainScreen({navigation}) {
       source={require('../../assets/background/yellow_bg.png')}
       resizeMode="cover"
       style={styles.background}>
-      <Image source={require('../../assets/logo.png')} style={styles.logo} />
+      <Image
+        source={require('../../assets/logo.png')}
+        style={{
+          position: 'absolute',
+          top: 10 + insets.top,
+          left: 10,
+          width: 80,
+          height: 80,
+        }}
+      />
 
       <View style={styles.card}>
         {/* 상단 이름/생일 */}

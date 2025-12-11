@@ -19,8 +19,7 @@ function TabNavigator() {
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
-          height: 69,
-          paddingBottom: 69 + insets.bottom,
+          height: 69 + insets.bottom,
         },
       }}>
       <Tab.Screen
