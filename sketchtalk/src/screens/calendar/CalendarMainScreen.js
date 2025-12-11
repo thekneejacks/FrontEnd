@@ -125,18 +125,6 @@ export default function CalenderMainScreen({route}) {
   );
 
   const navigation = useNavigation();
-  /*function TempNavigate(diaryDate) {
-    navigation.navigate('DiaryResultStackNavigator', {
-      screen: 'DiaryResultScreen',
-      params: {
-        diaryId: '',
-        isCalendar: true,
-        calendarDate: date,
-        calendarListView: listView,
-      },
-    });
-  }*/
-
   function naviagteToDiary(diaryId) {
     navigation.navigate('DiaryResultStackNavigator', {
       screen: 'DiaryResultScreen',
@@ -173,10 +161,6 @@ export default function CalenderMainScreen({route}) {
       ls('token', data.data.data.accessToken);
     },
   });
-
-  const TempLogin = () => {
-    useLoginFetch.mutate({loginId: 'testappleuser3', password: '1234apple'});
-  };
 
   //일기 미리보기
   const useDiaryPreviewFetch = useMutation({
@@ -229,8 +213,8 @@ export default function CalenderMainScreen({route}) {
       </Text>
       <CalendarNavigator
         date={date}
-        //onDatePress={() => showPicker(true)}
-        onDatePress={() => TempLogin()}
+        onDatePress={() => showPicker(true)}
+        //onDatePress={() => TempLogin()}
         onLeftPress={() =>
           setDate(new Date(moment(date).subtract(1, 'months')))
         }

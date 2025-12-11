@@ -21,7 +21,8 @@ import axios from 'axios';
 const {width, height} = Dimensions.get('window');
 
 export default function DiaryEditScreen({route}) {
-  const [value, onChangeContentText] = useState('');
+  const [contentText, onChangeContentText] = useState('');
+  const [titleText, onChangeTitleText] = useState('');
   const [confirmRedrawModalVisible, setConfirmRedrawModalVisible] =
     useState(false);
   const [editInProgressModalVisible, setEditInProgressModalVisible] =
@@ -43,6 +44,7 @@ export default function DiaryEditScreen({route}) {
   const {diaryId, date, title, content, emotion} = route.params;
   useEffect(() => {
     onChangeContentText(content);
+    onChangeTitleText(title);
   }, []);
 
   //일기 수정하기
@@ -79,11 +81,11 @@ export default function DiaryEditScreen({route}) {
     console.log(date + ' ' + typeof date);
     console.log(title + ' ' + typeof title);
     console.log(emotion + ' ' + typeof emotion);
-    console.log(value + ' ' + typeof value);
+    console.log(contentText + ' ' + typeof contentText);
     useDiaryEditFetch.mutate({
       diaryId: diaryId,
-      title: title,
-      content: value,
+      title: titleText,
+      content: contentText,
       date: date,
       emotion: emotion,
     });
@@ -95,8 +97,9 @@ export default function DiaryEditScreen({route}) {
       resizeMode="cover">
       <DiaryDisplay
         title={title}
-        content={value}
-        onChangeText={text => onChangeContentText(text)}
+        content={contentText}
+        onChangeTitleText={text => onChangeTitleText(text)}
+        onChangeContentText={text => onChangeContentText(text)}
         date={date}
       />
       <ConfirmButton
@@ -292,7 +295,8 @@ const DiaryDisplay = props => (
       <DiaryTextDisplay
         title={props.title}
         content={props.content}
-        onChangeText={props.onChangeText}
+        onChangeTitleText={props.onChangeTitleText}
+        onChangeContentText={props.onChangeContentText}
       />
     </View>
   </View>
@@ -367,6 +371,7 @@ const DiaryTextDisplay = props => (
         multiline={false}
         editable
         textAlignVertical="top"
+        onChangeText={props.onChangeTitleText}
         maxLength={20}
         style={{
           fontSize: 14,
@@ -386,7 +391,7 @@ const DiaryTextDisplay = props => (
       editable
       textAlignVertical="top"
       maxLength={200}
-      onChangeText={props.onChangeText}
+      onChangeText={props.onChangeContentText}
       value={props.content}
       style={{
         fontSize: 14,
