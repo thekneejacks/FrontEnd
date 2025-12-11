@@ -14,6 +14,7 @@ import {
 import Entypo from 'react-native-vector-icons/Entypo';
 import colors from '../../constants/colors';
 import ChallengeTask from '../../components/challengeTask';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useQuery} from '@tanstack/react-query';
 import {getAchievementList} from '../../api/challenge';
 import {getCategoryImage} from '../../constants/challengeIcon';
@@ -27,6 +28,7 @@ const CARD_W = (width - GAP * 3) / 2;
 export default function ChallengeMainScreen({navigation}) {
   const [filter, setFilter] = useState('all');
   const [menuOpen, setMenuOpen] = useState(false);
+  const insets = useSafeAreaInsets();
 
   const {
     data: achievements,
@@ -58,8 +60,22 @@ export default function ChallengeMainScreen({navigation}) {
     <ImageBackground
       source={require('../../assets/background/green_bg.png')}
       resizeMode="cover"
-      style={styles.background}>
-      <Image source={require('../../assets/logo.png')} style={styles.logo} />
+      style={{
+        flex: 1,
+        width: width,
+        height: height,
+        paddingTop: insets.top,
+      }}>
+      <Image
+        source={require('../../assets/logo.png')}
+        style={{
+          position: 'absolute',
+          top: 10 + insets.top,
+          left: 10,
+          width: 80,
+          height: 80,
+        }}
+      />
 
       <View style={styles.header}>
         <Text style={styles.headerTitle}>도전과제</Text>

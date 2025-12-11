@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import colors from '../constants/colors';
@@ -20,7 +20,7 @@ function TabNavigator() {
       screenOptions={{
         tabBarStyle: {
           height: 69,
-          paddingBottom: insets.bottom,
+          paddingBottom: 69 + insets.bottom,
         },
       }}>
       <Tab.Screen
@@ -79,7 +79,9 @@ function TabNavigator() {
           const hideOn = ['FAQ', 'AppInfo', 'ProfileEdit', 'AlarmSetting'];
           const hide = hideOn.includes(rn);
           return {
-            tabBarStyle: hide ? {display: 'none'} : {height: 69},
+            tabBarStyle: hide
+              ? {display: 'none'}
+              : {height: 69, paddingBottom: 69 + insets.bottom},
             tabBarShowLabel: false,
             headerShown: false,
             tabBarIcon: ({focused}) => (

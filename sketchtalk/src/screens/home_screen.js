@@ -29,7 +29,7 @@ export default function HomeScreen() {
       }}
       source={require('../assets/background/yellow_bg.png')}
       resizeMode="cover">
-      <AppLogo />
+      <AppLogo paddingTop={insets.top} />
       <CharacterImage
         onPress={() => navigation.navigate('DiaryStackNavigator')}
       />
@@ -37,12 +37,12 @@ export default function HomeScreen() {
   );
 }
 
-const AppLogo = () => (
+const AppLogo = props => (
   <Image
     source={require('../assets/logo.png')}
     style={{
       position: 'absolute',
-      top: 10,
+      top: 10 + props.paddingTop,
       left: 10,
       width: 80,
       height: 80,

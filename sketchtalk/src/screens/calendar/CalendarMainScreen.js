@@ -26,25 +26,6 @@ import {useMutation} from '@tanstack/react-query';
 
 import axios from 'axios';
 
-/*function getEmoticon(emotion) {
-  if (emotion.localeCompare('happy') === 1) {
-    console.log('got ' + emotion);
-    return require('../../assets/emotions/emotion_happy.png');
-  }
-  if (emotion.localeCompare('amazed') === 1) {
-    return require('../../assets/emotions/emotion_amazed.png');
-  }
-  if (emotion.localeCompare('sad') === 1) {
-    return require('../../assets/emotions/emotion_sad.png');
-  }
-  if (emotion.localeCompare('angry') === 1) {
-    return require('../../assets/emotions/emotion_angry.png');
-  }
-  if (emotion.localeCompare('anxiety') === 1) {
-    return require('../../assets/emotions/emotion_anxiety.png');
-  }
-}*/
-
 function getEmoticon(emotion) {
   if (emotion === 'HAPPY') {
     return require('../../assets/emotions/emotion_happy.png');
@@ -209,7 +190,7 @@ export default function CalenderMainScreen({route}) {
       source={require('../../assets/background/blue_bg.png')}
       resizeMode="cover">
       {isDiaryLoading && <LoadDiaryModal isVisible={isDiaryLoading} />}
-      <AppLogo />
+      <AppLogo paddingTop={insets.top} />
       <Text
         style={{
           fontSize: 25,
@@ -905,12 +886,12 @@ const LoadDiaryModal = props => (
   </Modal>
 );
 
-const AppLogo = () => (
+const AppLogo = props => (
   <Image
     source={require('../../assets/logo.png')}
     style={{
       position: 'absolute',
-      top: 10,
+      top: 10 + props.paddingTop,
       left: 10,
       width: 80,
       height: 80,
