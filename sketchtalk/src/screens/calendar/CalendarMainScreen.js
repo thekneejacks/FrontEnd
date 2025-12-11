@@ -17,6 +17,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import moment from 'moment';
 import MonthPicker from 'react-native-month-year-picker';
 import Modal from 'react-native-modal';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import 'moment/locale/ko';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -110,6 +111,7 @@ export default function CalenderMainScreen({route}) {
   const [listView, setListView] = useState(calendarListView);
   const [isPreviewVisible, setPreviewVisible] = useState(false);
   const [isDiaryLoading, setIsDiaryLoading] = useState(false);
+  const insets = useSafeAreaInsets();
   const ls = require('local-storage');
 
   const showPicker = useCallback(value => setShowYearMonthPicker(value), []);
@@ -196,7 +198,15 @@ export default function CalenderMainScreen({route}) {
   };
 
   return (
-    <Background
+    <ImageBackground
+      style={{
+        flex: 1,
+        width: width,
+        height: height,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: insets.top,
+      }}
       source={require('../../assets/background/blue_bg.png')}
       resizeMode="cover">
       {isDiaryLoading && <LoadDiaryModal isVisible={isDiaryLoading} />}
@@ -499,7 +509,7 @@ export default function CalenderMainScreen({route}) {
           }}
         />
       )}
-    </Background>
+    </ImageBackground>
   );
 }
 

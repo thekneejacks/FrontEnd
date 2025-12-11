@@ -16,6 +16,7 @@ import colors from '../../../constants/colors';
 import styled from 'styled-components';
 import {DiaryLoadingScreen} from '../component/DiaryLoadingScreen';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import CommentText from '../../../components/commenttext';
 import ConfirmButton from '../../../components/confirmbutton';
 import Modal from 'react-native-modal';
@@ -85,6 +86,7 @@ export default function DiaryResultScreen({route}) {
   const [achievementIndex, setAchievementIndex] = useState(0);
   const captureRef = useRef();
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   //API 연결
 
@@ -194,7 +196,16 @@ export default function DiaryResultScreen({route}) {
   };
 
   return (
-    <Background
+    <ImageBackground
+      style={{
+        flex: 1,
+        width: width,
+        height: height,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+      }}
       source={require('../../../assets/background/yellow_bg.png')}
       resizeMode="cover">
       {useDiaryViewQueryFetch.isPending && (
@@ -258,7 +269,14 @@ export default function DiaryResultScreen({route}) {
               quality: 0.9,
             }}
             style={{position: 'absolute', marginTop: 2000, marginRight: 0}}>
-            <Background
+            <ImageBackground
+              style={{
+                flex: 1,
+                width: width,
+                height: height,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
               source={getEmotionDownloadBackground(
                 useDiaryViewQueryFetch.data.data.data.emotion,
               )}
@@ -281,7 +299,7 @@ export default function DiaryResultScreen({route}) {
                   commentText={useDiaryViewQueryFetch.data.data.data.comment}
                 />
               </View>
-            </Background>
+            </ImageBackground>
           </ViewShot>
           {downloadEventModalVisible && (
             <DownloadEventModal
@@ -295,7 +313,7 @@ export default function DiaryResultScreen({route}) {
           )}
         </View>
       )}
-    </Background>
+    </ImageBackground>
   );
 }
 
@@ -871,14 +889,6 @@ const DownloadEventModal = props => (
     </View>
   </Modal>
 );
-
-const Background = styled(ImageBackground)`
-  flex: 1;
-  width: ${width};
-  height: ${height};
-  justify-content: center;
-  align-items: center;
-`;
 
 const NotebookLine = ({
   lineWidth = width * 0.9,

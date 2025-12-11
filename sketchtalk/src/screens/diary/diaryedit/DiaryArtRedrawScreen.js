@@ -12,6 +12,7 @@ import React, {useState, useEffect} from 'react';
 import Modal from 'react-native-modal';
 import colors from '../../../constants/colors';
 import styled from 'styled-components';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {DiaryLoadingScreen} from '../component/DiaryLoadingScreen';
 import {useNavigation} from '@react-navigation/native';
 import {useMutation} from '@tanstack/react-query';
@@ -21,7 +22,7 @@ const {width, height} = Dimensions.get('window');
 
 export default function DiaryArtRedrawScreen({route}) {
   const [artConfirmModalVisible, setArtConfirmModalVisible] = useState(false);
-
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
 
   const {diaryId, content, style_name, image_url} = route.params;
@@ -106,7 +107,16 @@ export default function DiaryArtRedrawScreen({route}) {
   };
 
   return (
-    <Background
+    <ImageBackground
+      style={{
+        flex: 1,
+        width: width,
+        height: height,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+      }}
       source={require('../../../assets/background/yellow_bg.png')}
       resizeMode="cover">
       {artConfirmModalVisible && (
@@ -153,7 +163,7 @@ export default function DiaryArtRedrawScreen({route}) {
           />
         </View>
       )}
-    </Background>
+    </ImageBackground>
   );
 }
 
@@ -260,11 +270,3 @@ const ConfirmArtModal = props => (
     </View>
   </Modal>
 );
-
-const Background = styled(ImageBackground)`
-  flex: 1;
-  width: ${width};
-  height: ${height};
-  justify-content: center;
-  align-items: center;
-`;

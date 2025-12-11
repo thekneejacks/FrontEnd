@@ -12,6 +12,7 @@ import React, {useEffect} from 'react';
 import colors from '../../../constants/colors';
 import ConfirmText from '../../../components/confirmtext';
 import styled from 'styled-components';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 import {synthesizeSpeech} from '../api/DiaryTTS';
 
@@ -37,6 +38,7 @@ const style_list = [
 
 export default function DiaryEditChooseArtstyleScreen({route}) {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
   function TempNavigate(style_name) {
     navigation.navigate('DiaryArtRedrawScreen', {
       style_name: style_name,
@@ -49,7 +51,16 @@ export default function DiaryEditChooseArtstyleScreen({route}) {
   }, []);
 
   return (
-    <Background
+    <ImageBackground
+      style={{
+        flex: 1,
+        width: width,
+        height: height,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+      }}
       source={require('../../../assets/background/yellow_bg.png')}
       resizeMode="cover">
       <View
@@ -76,7 +87,7 @@ export default function DiaryEditChooseArtstyleScreen({route}) {
           numColumns={2}></FlatList>
       </View>
       <ConfirmText text={'어떤 스타일로 그려줄까?'} width={width} flex={0.55} />
-    </Background>
+    </ImageBackground>
   );
 }
 
@@ -121,11 +132,3 @@ const MessageItem = item => (
     </Text>
   </Pressable>
 );
-
-const Background = styled(ImageBackground)`
-  flex: 1;
-  width: ${width};
-  height: ${height};
-  justify-content: center;
-  align-items: center;
-`;

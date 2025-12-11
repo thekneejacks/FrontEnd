@@ -14,6 +14,7 @@ import {Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Loader from 'react-native-three-dots-loader';
 import ConfirmButton from '../../components/confirmbutton';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 //stt tts
 import {initializeAudio, stopAudio} from './api/DiarySTT';
 import {synthesizeSpeech} from './api/DiaryTTS';
@@ -31,10 +32,10 @@ export default function DiaryMainScreen() {
     navigation.navigate('DiaryConfirmTextScreen');
   }
 
-  //const {initdata, error, isFetching, isLoading} = useDiaryChatFetch(dialog);
   const [userDialog, setUserDialog] = useState('');
   const [isWaitingReply, setIsWaitingReply] = useState(false);
   const [isSufficient, setIsSufficient] = useState(false);
+  const insets = useSafeAreaInsets();
   useEffect(() => {
     //AddMessage(initdata.data.reply, true);
     dummyData.length = 0; //clear array
@@ -118,7 +119,16 @@ export default function DiaryMainScreen() {
   }
 
   return (
-    <Background
+    <ImageBackground
+      style={{
+        flex: 1,
+        width: width,
+        height: height,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+      }}
       source={require('../../assets/background/yellow_bg.png')}
       resizeMode="cover">
       <CharacterImage />
@@ -157,7 +167,7 @@ export default function DiaryMainScreen() {
         isWaitingReply={isWaitingReply}
         isSufficient={isSufficient}
       />
-    </Background>
+    </ImageBackground>
   );
 }
 

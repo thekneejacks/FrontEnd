@@ -16,6 +16,7 @@ import styled from 'styled-components';
 import {DiaryLoadingScreen} from './component/DiaryLoadingScreen';
 import {useNavigation} from '@react-navigation/native';
 import {useMutation} from '@tanstack/react-query';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import axios from 'axios';
 import {synthesizeSpeech} from './api/DiaryTTS';
 
@@ -23,6 +24,7 @@ const {width, height} = Dimensions.get('window');
 
 export default function DiaryConfirmArtScreen({route}) {
   const [artConfirmModalVisible, setArtConfirmModalVisible] = useState(false);
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const ls = require('local-storage');
 
@@ -107,7 +109,16 @@ export default function DiaryConfirmArtScreen({route}) {
   }, []);
 
   return (
-    <Background
+    <ImageBackground
+      style={{
+        flex: 1,
+        width: width,
+        height: height,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+      }}
       source={require('../../assets/background/yellow_bg.png')}
       resizeMode="cover">
       {artConfirmModalVisible && (
@@ -149,7 +160,7 @@ export default function DiaryConfirmArtScreen({route}) {
           </View>
         </View>
       )}
-    </Background>
+    </ImageBackground>
   );
 }
 

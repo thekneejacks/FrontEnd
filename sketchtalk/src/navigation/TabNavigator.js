@@ -2,98 +2,100 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import colors from '../constants/colors';
-
 import HomeScreen from '../screens/home_screen';
 import CalendarStackNavigator from './CalendarStackNavigator.js';
-import DiaryStackNavigator from './DiaryStackNavigator.js';
 import MypageStackNavigator from './MypageStackNavigator.js';
 import ChallengeStackNavigator from './ChallengeStackNavigator.js';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Feather from 'react-native-vector-icons/Feather';
-import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {View, Text} from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
-const TabNavigator = () => (
-  <Tab.Navigator
-    screenOptions={{
-      tabBarStyle: {
-        height: 69,
-      },
-    }}>
-    <Tab.Screen
-      name="HomeScreen"
-      component={HomeScreen}
-      options={{
-        tabBarShowLabel: false,
-        headerShown: false,
-        tabBarIcon: ({focused}) => (
-          <CustomIcon
-            focused={focused}
-            Icontype={SimpleLineIcons}
-            iconName={'pencil'}
-            labelName={'홈 화면'}
-          />
-        ),
-      }}
-    />
-    <Tab.Screen
-      name="CalendarStackNavigator"
-      component={CalendarStackNavigator}
-      options={{
-        tabBarShowLabel: false,
-        headerShown: false,
-        tabBarIcon: ({focused}) => (
-          <CustomIcon
-            focused={focused}
-            Icontype={Feather}
-            iconName="calendar"
-            labelName="달력"
-          />
-        ),
-      }}
-    />
-    <Tab.Screen
-      name="ChallengeStackNavigator"
-      component={ChallengeStackNavigator}
-      options={{
-        tabBarShowLabel: false,
-        headerShown: false,
-        tabBarIcon: ({focused}) => (
-          <CustomIcon
-            focused={focused}
-            Icontype={SimpleLineIcons}
-            iconName="star"
-            labelName="도전과제"
-          />
-        ),
-      }}
-    />
-    <Tab.Screen
-      name="MypageStackNavigator"
-      component={MypageStackNavigator}
-      options={({route}) => {
-        const rn = getFocusedRouteNameFromRoute(route) ?? 'MypageMainScreen';
-        const hideOn = ['FAQ', 'AppInfo', 'ProfileEdit', 'AlarmSetting'];
-        const hide = hideOn.includes(rn);
-        return {
-          tabBarStyle: hide ? {display: 'none'} : {height: 69},
+function TabNavigator() {
+  const insets = useSafeAreaInsets();
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: {
+          height: 69,
+          paddingBottom: insets.bottom,
+        },
+      }}>
+      <Tab.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{
+          tabBarShowLabel: false,
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <CustomIcon
+              focused={focused}
+              Icontype={SimpleLineIcons}
+              iconName={'pencil'}
+              labelName={'홈 화면'}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="CalendarStackNavigator"
+        component={CalendarStackNavigator}
+        options={{
           tabBarShowLabel: false,
           headerShown: false,
           tabBarIcon: ({focused}) => (
             <CustomIcon
               focused={focused}
               Icontype={Feather}
-              iconName="user"
-              labelName="마이페이지"
+              iconName="calendar"
+              labelName="달력"
             />
           ),
-        };
-      }}
-    />
-  </Tab.Navigator>
-);
+        }}
+      />
+      <Tab.Screen
+        name="ChallengeStackNavigator"
+        component={ChallengeStackNavigator}
+        options={{
+          tabBarShowLabel: false,
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <CustomIcon
+              focused={focused}
+              Icontype={SimpleLineIcons}
+              iconName="star"
+              labelName="도전과제"
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="MypageStackNavigator"
+        component={MypageStackNavigator}
+        options={({route}) => {
+          const rn = getFocusedRouteNameFromRoute(route) ?? 'MypageMainScreen';
+          const hideOn = ['FAQ', 'AppInfo', 'ProfileEdit', 'AlarmSetting'];
+          const hide = hideOn.includes(rn);
+          return {
+            tabBarStyle: hide ? {display: 'none'} : {height: 69},
+            tabBarShowLabel: false,
+            headerShown: false,
+            tabBarIcon: ({focused}) => (
+              <CustomIcon
+                focused={focused}
+                Icontype={Feather}
+                iconName="user"
+                labelName="마이페이지"
+              />
+            ),
+          };
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
 
 const CustomIcon = props => (
   <View

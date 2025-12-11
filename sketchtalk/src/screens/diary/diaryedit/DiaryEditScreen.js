@@ -12,6 +12,7 @@ import {React, useEffect, useState} from 'react';
 import colors from '../../../constants/colors';
 import styled from 'styled-components';
 import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import ConfirmButton from '../../../components/confirmbutton';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import moment from 'moment';
@@ -27,6 +28,7 @@ export default function DiaryEditScreen({route}) {
     useState(false);
   const [editInProgressModalVisible, setEditInProgressModalVisible] =
     useState(false);
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   function TempNavigateToResultScreen() {
     navigation.navigate('DiaryResultScreen', {
@@ -92,7 +94,16 @@ export default function DiaryEditScreen({route}) {
   };
 
   return (
-    <Background
+    <ImageBackground
+      style={{
+        flex: 1,
+        width: width,
+        height: height,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+      }}
       source={require('../../../assets/background/yellow_bg.png')}
       resizeMode="cover">
       <DiaryDisplay
@@ -120,7 +131,7 @@ export default function DiaryEditScreen({route}) {
           TempNavigateToResultScreen();
         }}
       />
-    </Background>
+    </ImageBackground>
   );
 }
 
@@ -406,14 +417,6 @@ const DiaryTextDisplay = props => (
       }}></TextInput>
   </View>
 );
-
-const Background = styled(ImageBackground)`
-  flex: 1;
-  width: ${width};
-  height: ${height};
-  justify-content: center;
-  align-items: center;
-`;
 
 const NotebookLine = () => (
   <View

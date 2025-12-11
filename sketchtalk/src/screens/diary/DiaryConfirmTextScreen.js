@@ -12,6 +12,7 @@ import ConfirmButton from '../../components/confirmbutton';
 import colors from '../../constants/colors';
 import styled from 'styled-components';
 import Modal from 'react-native-modal';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {DiaryLoadingScreen} from './component/DiaryLoadingScreen';
 import {useNavigation} from '@react-navigation/native';
 import {useMutation} from '@tanstack/react-query';
@@ -28,6 +29,7 @@ const dummyData = {
 
 export default function DiaryConfirmTextScreen() {
   const [textConfirmModalVisible, setTextConfirmModalVisible] = useState(false);
+  const insets = useSafeAreaInsets();
   //일기 승인
   const navigation = useNavigation();
   const ls = require('local-storage');
@@ -94,7 +96,16 @@ export default function DiaryConfirmTextScreen() {
   }
 
   return (
-    <Background
+    <ImageBackground
+      style={{
+        flex: 1,
+        width: width,
+        height: height,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+      }}
       source={require('../../assets/background/yellow_bg.png')}
       resizeMode="cover">
       {/*{useDiaryGetTextFetch.isPending ? (*/}
@@ -147,7 +158,7 @@ export default function DiaryConfirmTextScreen() {
       {textConfirmModalVisible && (
         <ConfirmTextModal isVisible={textConfirmModalVisible} />
       )}
-    </Background>
+    </ImageBackground>
   );
 }
 
@@ -222,14 +233,6 @@ const DiaryDisplay = props => (
     </View>
   </View>
 );
-
-const Background = styled(ImageBackground)`
-  flex: 1;
-  width: ${width};
-  height: ${height};
-  justify-content: center;
-  align-items: center;
-`;
 
 const NotebookLine = () => (
   <View
