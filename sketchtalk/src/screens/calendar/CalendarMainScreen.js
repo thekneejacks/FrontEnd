@@ -11,7 +11,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import styled from 'styled-components/native';
 import colors from '../../constants/colors';
 import Entypo from 'react-native-vector-icons/Entypo';
 import moment from 'moment';
@@ -905,14 +904,6 @@ const LoadDiaryModal = props => (
     </View>
   </Modal>
 );
-
-const Background = styled(ImageBackground)`
-  flex: 1;
-  width: ${width};
-  height: ${height};
-  justify-content: center;
-  align-items: center;
-`;
 
 const AppLogo = () => (
   <Image

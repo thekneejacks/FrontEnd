@@ -11,7 +11,6 @@ import {
 import colors from '../../constants/colors';
 import React, {useEffect} from 'react';
 import ConfirmText from '../../components/confirmtext';
-import styled from 'styled-components';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 import {synthesizeSpeech} from './api/DiaryTTS';

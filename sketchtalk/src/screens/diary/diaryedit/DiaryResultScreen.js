@@ -13,7 +13,6 @@ import React, {useState, useRef, useEffect} from 'react';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import colors from '../../../constants/colors';
-import styled from 'styled-components';
 import {DiaryLoadingScreen} from '../component/DiaryLoadingScreen';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';

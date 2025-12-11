@@ -10,7 +10,7 @@ import React, {useState, useEffect} from 'react';
 import ConfirmText from '../../components/confirmtext';
 import ConfirmButton from '../../components/confirmbutton';
 import colors from '../../constants/colors';
-import styled from 'styled-components';
+
 import Modal from 'react-native-modal';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {DiaryLoadingScreen} from './component/DiaryLoadingScreen';

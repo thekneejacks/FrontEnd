@@ -12,7 +12,6 @@ import Modal from 'react-native-modal';
 import ConfirmText from '../../components/confirmtext';
 import ConfirmButton from '../../components/confirmbutton';
 import colors from '../../constants/colors';
-import styled from 'styled-components';
 import {DiaryLoadingScreen} from './component/DiaryLoadingScreen';
 import {useNavigation} from '@react-navigation/native';
 import {useMutation} from '@tanstack/react-query';
@@ -266,11 +265,3 @@ const ConfirmArtModal = props => (
     </View>
   </Modal>
 );
-
-const Background = styled(ImageBackground)`
-  flex: 1;
-  width: ${width};
-  height: ${height};
-  justify-content: center;
-  align-items: center;
-`;

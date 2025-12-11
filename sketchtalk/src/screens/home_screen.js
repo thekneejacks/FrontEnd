@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import colors from '../constants/colors';
 import BlinkView from 'react-native-blink-view';
 import {
@@ -15,16 +15,25 @@ import {
 const {width, height} = Dimensions.get('window');
 
 export default function HomeScreen() {
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   return (
-    <Background
+    <ImageBackground
+      style={{
+        flex: 1,
+        width: width,
+        height: height,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: insets.top,
+      }}
       source={require('../assets/background/yellow_bg.png')}
       resizeMode="cover">
       <AppLogo />
       <CharacterImage
         onPress={() => navigation.navigate('DiaryStackNavigator')}
       />
-    </Background>
+    </ImageBackground>
   );
 }
 
@@ -78,11 +87,3 @@ const CharacterImage = props => (
     </BlinkView>
   </Pressable>
 );
-
-const Background = styled(ImageBackground)`
-  flex: 1;
-  width: ${width};
-  height: ${height};
-  justify-content: center;
-  align-items: center;
-`;

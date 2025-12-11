@@ -6,8 +6,8 @@ import {
   Pressable,
   View,
   TextInput,
+  FlatList,
 } from 'react-native';
-import {styled} from 'styled-components/native';
 import colors from '../../constants/colors';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import {Image} from 'react-native';
@@ -132,13 +132,11 @@ export default function DiaryMainScreen() {
       source={require('../../assets/background/yellow_bg.png')}
       resizeMode="cover">
       <CharacterImage />
+
       <MessageList
         data={dummyData}
-        contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
         renderItem={({item}) => MessageItem({item})}
         keyExtractor={item => item.id}
-        inverted={true}
-        fadingEdgeLength={100}
       />
       {!isSufficient ? (
         <MicButton
@@ -182,10 +180,28 @@ const CharacterImage = () => (
   </View>
 );
 
-const MessageList = styled.FlatList`
-  flex: 5;
-  width: ${width};
-`;
+const MessageList = props => (
+  <View
+    style={{
+      flex: 5,
+      width: width,
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
+    <FlatList
+      style={{flex: 1, width: width}}
+      data={props.data}
+      contentContainerStyle={{
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+      renderItem={props.renderItem}
+      keyExtractor={props.keyExtractor}
+      inverted={true}
+      fadingEdgeLength={100}
+    />
+  </View>
+);
 
 const MicButton = props => (
   <View
@@ -381,11 +397,3 @@ function MessageItem({item}) {
     </View>
   );
 }
-
-const Background = styled(ImageBackground)`
-  flex: 1;
-  width: ${width};
-  height: ${height};
-  justify-content: center;
-  align-items: center;
-`;

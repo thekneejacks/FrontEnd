@@ -11,7 +11,6 @@ import {
 import React, {useState, useEffect} from 'react';
 import Modal from 'react-native-modal';
 import colors from '../../../constants/colors';
-import styled from 'styled-components';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {DiaryLoadingScreen} from '../component/DiaryLoadingScreen';
 import {useNavigation} from '@react-navigation/native';

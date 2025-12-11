@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import {React, useEffect, useState} from 'react';
 import colors from '../../../constants/colors';
-import styled from 'styled-components';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import ConfirmButton from '../../../components/confirmbutton';
