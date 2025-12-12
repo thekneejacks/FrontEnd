@@ -40,7 +40,7 @@ export default function DiaryMainScreen() {
     //AddMessage(initdata.data.reply, true);
     dummyData.length = 0; //clear array
     setIsWaitingReply(false);
-    AddFetchedMessage('첫 메세지야');
+    AddFetchedMessage('안녕! 오늘은 어떤 일이 있었는지 이야기 해볼까?');
   }, []);
 
   function AddFetchedMessage(dialog) {
@@ -52,7 +52,12 @@ export default function DiaryMainScreen() {
       isWaitingReply: false,
       text: dialog,
     });
-    synthesizeSpeech(dialog);
+    if (
+      useDiaryChatFetch.isSuccess &&
+      useDiaryChatFetch.data.data.data.voice !== undefined
+    ) {
+      synthesizeSpeech(dialog);
+    }
   }
 
   function AddWaitingMessage() {
@@ -93,6 +98,7 @@ export default function DiaryMainScreen() {
       AddWaitingMessage();
     },
     onSuccess: data => {
+      console.log(data.data.data);
       AddFetchedMessage(data.data.data.reply);
       if (data.data.data.isSufficient) {
         setIsSufficient(true);
@@ -101,7 +107,7 @@ export default function DiaryMainScreen() {
     },
     onError: error => {
       console.warn('useDiaryChatFetch ' + error.message);
-      AddFetchedMessage('오류');
+      AddFetchedMessage(error.message);
       setIsWaitingReply(false);
     },
   });
@@ -115,6 +121,7 @@ export default function DiaryMainScreen() {
 
   async function STT(resultText) {
     console.log('got this: ' + resultText);
+    resultText = resultText.replace('?', '.');
     FetchMessage(resultText);
   }
 

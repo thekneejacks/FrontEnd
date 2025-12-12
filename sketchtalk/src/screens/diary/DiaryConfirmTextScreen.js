@@ -21,14 +21,9 @@ import axios from 'axios';
 
 const {width, height} = Dimensions.get('window');
 
-const dummyData = {
-  title: '축구하다가 넘어졌지만 재밌었어!',
-  content:
-    '오늘 학교에서 친구들이랑 운동장에서 축구를 했다. 나는 열심히 뛰다가 그만 넘어져서 무릎이 좀 아팠다. 그래도 친구들이 걱정해줘서 기분이 좋았고, 계속 같이 놀았다. 골은 못 넣었지만 친구들이랑 뛰어다니는 게 너무 재미있었다. 내일도 또 축구하고 싶다!',
-};
-
 export default function DiaryConfirmTextScreen() {
   const [textConfirmModalVisible, setTextConfirmModalVisible] = useState(false);
+  const [finalText, setFinalText] = useState('');
   const insets = useSafeAreaInsets();
   //일기 승인
   const navigation = useNavigation();
@@ -49,7 +44,9 @@ export default function DiaryConfirmTextScreen() {
       console.warn('diaryGetText ' + error);
     },
 
-    onSuccess: () => {
+    onSuccess: data => {
+      let processedText = data.data.data.content.replace(/(\r\n|\n|\r)/gm, ' ');
+      setFinalText(processedText);
       synthesizeSpeech('다시 써볼까?');
     },
   });
@@ -90,7 +87,8 @@ export default function DiaryConfirmTextScreen() {
   function ConfirmDiary() {
     useDiaryConfirmTextFetch.mutate({
       title: useDiaryGetTextFetch.data.data.data.title,
-      content: useDiaryGetTextFetch.data.data.data.content,
+      //content: useDiaryGetTextFetch.data.data.data.content,
+      content: finalText,
       emotion: useDiaryGetTextFetch.data.data.data.emotion,
     });
   }
@@ -134,7 +132,8 @@ export default function DiaryConfirmTextScreen() {
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
           <CharacterImage />
           <DiaryDisplay
-            item={useDiaryGetTextFetch.data.data.data}
+            title={useDiaryGetTextFetch.data.data.data.title}
+            content={finalText}
             //item={dummyData}
           />
           <ConfirmText text={'다시 써볼까?'} width={width} flex={0.5} />
@@ -215,7 +214,7 @@ const DiaryDisplay = props => (
           paddingHorizontal: 10,
           lineHeight: 30,
         }}>
-        제목 : {props.item.title}
+        제목 : {props.title}
       </Text>
       <Text
         style={{
@@ -228,7 +227,7 @@ const DiaryDisplay = props => (
           width: width * 0.9 - 2,
           lineHeight: 30,
         }}>
-        {props.item.content}
+        {props.content}
       </Text>
     </View>
   </View>
