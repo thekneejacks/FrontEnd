@@ -38,6 +38,7 @@ const style_list = [
 export default function DiaryChooseArtstyleScreen({route}) {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
+  const {voice} = route.params;
   function TempNavigate(style_name) {
     navigation.navigate('DiaryConfirmArtScreen', {
       style_name: style_name,
@@ -46,7 +47,7 @@ export default function DiaryChooseArtstyleScreen({route}) {
   }
 
   useEffect(() => {
-    synthesizeSpeech('어떤 스타일로 그려줄까?');
+    synthesizeSpeech('어떤 스타일로 그려줄까?', voice);
   }, []);
 
   return (

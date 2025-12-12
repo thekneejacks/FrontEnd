@@ -21,10 +21,11 @@ import axios from 'axios';
 
 const {width, height} = Dimensions.get('window');
 
-export default function DiaryConfirmTextScreen() {
+export default function DiaryConfirmTextScreen({route}) {
   const [textConfirmModalVisible, setTextConfirmModalVisible] = useState(false);
   const [finalText, setFinalText] = useState('');
   const insets = useSafeAreaInsets();
+  const {voice} = route.params;
   //일기 승인
   const navigation = useNavigation();
   const ls = require('local-storage');
@@ -47,7 +48,7 @@ export default function DiaryConfirmTextScreen() {
     onSuccess: data => {
       let processedText = data.data.data.content.replace(/(\r\n|\n|\r)/gm, ' ');
       setFinalText(processedText);
-      synthesizeSpeech('다시 써볼까?');
+      synthesizeSpeech('다시 써볼까?', voice);
     },
   });
 
@@ -80,6 +81,7 @@ export default function DiaryConfirmTextScreen() {
       navigation.navigate('DiaryChooseArtstyleScreen', {
         diaryId: data.data.data.diaryId,
         content: useDiaryGetTextFetch.data.data.data.content,
+        ...route.params,
       });
     },
   });

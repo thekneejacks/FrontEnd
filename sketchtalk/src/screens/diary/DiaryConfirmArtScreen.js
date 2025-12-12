@@ -44,7 +44,7 @@ export default function DiaryConfirmArtScreen({route}) {
     },
 
     onSuccess: () => {
-      synthesizeSpeech('다시 그려줄까?');
+      synthesizeSpeech('다시 그려줄까?', voice);
     },
   });
 
@@ -91,7 +91,7 @@ export default function DiaryConfirmArtScreen({route}) {
     });
   };
 
-  const {diaryId, content, style_name} = route.params;
+  const {diaryId, content, style_name, voice} = route.params;
   useEffect(() => {
     if (typeof diaryId === 'number') {
       console.log('yes');
@@ -149,6 +149,13 @@ export default function DiaryConfirmArtScreen({route}) {
               text={'응! 다시 그려줘.'}
               color={colors.primary}
               marginBottom={0}
+              onPress={() =>
+                useDiaryGetArtFetch.mutate({
+                  diaryId: diaryId,
+                  content: content,
+                  style: style_name,
+                })
+              }
             />
             <ConfirmButton
               text={'아니야! 마음에 들어.'}

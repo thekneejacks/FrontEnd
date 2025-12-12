@@ -29,7 +29,9 @@ export default function DiaryMainScreen() {
   const navigation = useNavigation();
 
   function TempNavigate() {
-    navigation.navigate('DiaryConfirmTextScreen');
+    navigation.navigate('DiaryConfirmTextScreen', {
+      voice: useDiaryChatFetch.data.data.data.voice,
+    });
   }
 
   const [userDialog, setUserDialog] = useState('');
@@ -56,7 +58,7 @@ export default function DiaryMainScreen() {
       useDiaryChatFetch.isSuccess &&
       useDiaryChatFetch.data.data.data.voice !== undefined
     ) {
-      synthesizeSpeech(dialog);
+      synthesizeSpeech(dialog, useDiaryChatFetch.data.data.data.voice);
     }
   }
 
