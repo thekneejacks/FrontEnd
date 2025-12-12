@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 import React from 'react';
 import colors from '../constants/colors';
 
@@ -11,7 +11,8 @@ const CommentText = ({height = 100, ...props}) => (
       marginVertical: props.marginVertical,
       paddingRight: 15,
     }}>
-    <View
+    <ScrollView
+      fadingEdgeLength={100}
       style={{
         backgroundColor: '#FFF7D7',
         paddingVertical: 7,
@@ -23,11 +24,11 @@ const CommentText = ({height = 100, ...props}) => (
         width: props.width * 0.63,
         height: height,
       }}>
-      <View style={{position: 'absolute', marginLeft: 5, marginTop: 7}}>
+      {/*<View style={{position: 'absolute', marginLeft: 5, marginTop: 7}}>
         <NotebookLine {...props} />
         <NotebookLine {...props} />
         <NotebookLine {...props} />
-      </View>
+      </View>*/}
       <Text
         style={{
           fontSize: 14,
@@ -35,13 +36,13 @@ const CommentText = ({height = 100, ...props}) => (
           fontFamily: 'MangoDdobak-R',
           includeFontPadding: false,
           paddingHorizontal: 10,
-          marginBottom: 3,
+          paddingBottom: 15,
           color: colors.redBrown,
-          lineHeight: 26,
+          lineHeight: 25,
         }}>
         {props.text}
       </Text>
-    </View>
+    </ScrollView>
   </View>
 );
 

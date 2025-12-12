@@ -1,16 +1,17 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 import colors from '../constants/colors';
+import {StyleSheet} from 'react-native';
 
-const CommentTextDownload = ({height = 100, ...props}) => (
+const CommentTextDownload = ({height = 120, ...props}) => (
   <View
     style={{
       flex: props.flex,
       alignItems: 'flex-start',
       width: props.width * 0.8,
       marginVertical: props.marginVertical,
-      paddingRight: 15,
-      paddingLeft: 10,
+      paddingRight: 5,
+      paddingLeft: 15,
     }}>
     <View
       style={{
@@ -20,14 +21,19 @@ const CommentTextDownload = ({height = 100, ...props}) => (
         borderBottomRightRadius: 18,
         borderBottomLeftRadius: 18,
         borderColor: colors.creamWhite,
-        borderWidth: 1,
+
+        borderColor: colors.gray400,
+        borderWidth: StyleSheet.hairlineWidth,
         height: height,
       }}>
-      <View style={{position: 'absolute', marginLeft: 5, marginTop: 7}}>
+      {/*<View style={{position: 'absolute', marginLeft: 5, marginTop: 7}}>
         <NotebookLine {...props} />
         <NotebookLine {...props} />
         <NotebookLine {...props} />
-      </View>
+        <NotebookLine {...props} />
+        <NotebookLine {...props} />
+        <NotebookLine {...props} />
+      </View>*/}
 
       <Text
         style={{
@@ -38,7 +44,7 @@ const CommentTextDownload = ({height = 100, ...props}) => (
           paddingHorizontal: 10,
           marginBottom: 3,
           color: colors.redBrown,
-          lineHeight: 26,
+          lineHeight: 23,
         }}>
         {props.text}
       </Text>

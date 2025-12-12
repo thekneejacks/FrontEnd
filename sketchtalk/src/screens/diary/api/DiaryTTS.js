@@ -1,5 +1,5 @@
 import {NativeModules} from 'react-native';
-import {key, voice, region} from './DiaryAzure';
+import {key, region} from './DiaryAzure';
 
 const {TTSModule} = NativeModules;
 

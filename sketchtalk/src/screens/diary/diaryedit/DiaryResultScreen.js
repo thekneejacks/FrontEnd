@@ -16,6 +16,7 @@ import colors from '../../../constants/colors';
 import {DiaryLoadingScreen} from '../component/DiaryLoadingScreen';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {StyleSheet} from 'react-native';
 import CommentText from '../../../components/commenttext';
 import ConfirmButton from '../../../components/confirmbutton';
 import Modal from 'react-native-modal';
@@ -93,7 +94,7 @@ export default function DiaryResultScreen({route}) {
     !isCalendar && confirmArt
       ? useDiaryConfirmArtFetch(diaryId, image_url)
       : useDiaryViewQueryFetch(diaryId);*/
-  const {isCalendar, diaryId, voice} = route.params;
+  const {isCalendar, diaryId, voice, achieved, achievedResult} = route.params;
   //const {isPending, isError, data, error} = useDiaryViewQueryFetch(diaryId);
 
   //뒤로가기
@@ -131,9 +132,7 @@ export default function DiaryResultScreen({route}) {
     },
     onSuccess: data => {
       console.log(data.data.data);
-      if (data.data.data.achievedResult !== undefined) {
-        setAchievementModalVisible(true);
-      }
+
       if (!isCalendar && voice !== undefined) {
         synthesizeSpeech(data.data.data.comment, voice);
       }
@@ -142,6 +141,11 @@ export default function DiaryResultScreen({route}) {
 
   useEffect(() => {
     useDiaryViewQueryFetch.mutate(diaryId);
+    console.log(achieved + ' ' + achievedResult);
+    if (achieved) {
+      console.log(achieved + ' ' + achievedResult);
+      setAchievementModalVisible(true);
+    }
   }, []);
 
   function TempNavigateToHome() {
@@ -236,7 +240,10 @@ export default function DiaryResultScreen({route}) {
             tutorialOnPress={() => setTutorialModalVisible(false)}
           />
           <CharacterCommentDisplay
-            commentText={useDiaryViewQueryFetch.data.data.data.comment}
+            commentText={useDiaryViewQueryFetch.data.data.data.comment.replace(
+              /(\r\n|\n|\r)/gm,
+              ' ',
+            )}
             onPress={
               isCalendar
                 ? () => TempNavigateToCalendar()
@@ -295,7 +302,10 @@ export default function DiaryResultScreen({route}) {
                   imageUrl={useDiaryViewQueryFetch.data.data.data.imageUrl}
                 />
                 <DownloadCharacterCommentDisplay
-                  commentText={useDiaryViewQueryFetch.data.data.data.comment}
+                  commentText={useDiaryViewQueryFetch.data.data.data.comment.replace(
+                    /(\r\n|\n|\r)/gm,
+                    ' ',
+                  )}
                 />
               </View>
             </ImageBackground>
@@ -382,6 +392,7 @@ const CharacterCommentDisplay = props => (
         style={{
           flex: 1,
           marginLeft: 5,
+          marginBottom: 15,
           justifyContent: 'center',
           alignItems: 'center',
         }}
@@ -425,7 +436,7 @@ const DownloadCharacterCommentDisplay = props => (
         }}>
         <Image
           style={{
-            flex: 5,
+            flex: 7,
             justifyContent: 'center',
             alignItems: 'center',
           }}
@@ -444,10 +455,9 @@ const DownloadCharacterCommentDisplay = props => (
         </Text>
       </View>
       <CommentTextDownload
-        flex={2}
+        flex={3}
         text={props.commentText}
         width={width * 0.75}
-        height={120}
       />
     </View>
   </View>
@@ -563,13 +573,17 @@ const DownloadDiaryDisplay = props => (
           borderColor: colors.black,
         }}>
         <Image
-          style={{width: 270, height: 180}}
-          resizeMode="contain"
+          style={{
+            width: 270,
+            height: 180,
+            resizeMode: 'cover',
+            borderWidth: StyleSheet.hairlineWidth,
+            borderColor: colors.gray400,
+            borderRadius: 10,
+            alignSelf: 'center',
+          }}
           source={{uri: props.imageUrl}}
         />
-        {props.showTutorial && (
-          <ButtonTutorialPopup tutorialOnPress={props.tutorialOnPress} />
-        )}
       </View>
       <View
         style={{
@@ -580,13 +594,13 @@ const DownloadDiaryDisplay = props => (
           marginTop: 5,
         }}>
         <View style={{position: 'absolute'}}>
-          <NotebookLine lineWidth={width * 0.8} lineHeight={30} />
-          <NotebookLine lineWidth={width * 0.8} lineHeight={30} />
-          <NotebookLine lineWidth={width * 0.8} lineHeight={30} />
-          <NotebookLine lineWidth={width * 0.8} lineHeight={30} />
-          <NotebookLine lineWidth={width * 0.8} lineHeight={30} />
-          <NotebookLine lineWidth={width * 0.8} lineHeight={30} />
-          <NotebookLine lineWidth={width * 0.8} lineHeight={30} />
+          <NotebookLine lineWidth={width * 0.8} lineHeight={27} />
+          <NotebookLine lineWidth={width * 0.8} lineHeight={27} />
+          <NotebookLine lineWidth={width * 0.8} lineHeight={27} />
+          <NotebookLine lineWidth={width * 0.8} lineHeight={27} />
+          <NotebookLine lineWidth={width * 0.8} lineHeight={27} />
+          <NotebookLine lineWidth={width * 0.8} lineHeight={27} />
+          <NotebookLine lineWidth={width * 0.8} lineHeight={27} />
         </View>
         <Text
           style={{
@@ -597,7 +611,7 @@ const DownloadDiaryDisplay = props => (
             justifyContent: 'flex-start',
             width: width * 0.8 - 2,
             paddingHorizontal: 10,
-            lineHeight: 30,
+            lineHeight: 26,
           }}>
           제목 : {props.item.title}
         </Text>
@@ -610,7 +624,7 @@ const DownloadDiaryDisplay = props => (
             justifyContent: 'flex-start',
             paddingHorizontal: 10,
             width: width * 0.8 - 2,
-            lineHeight: 30,
+            lineHeight: 26,
           }}>
           {props.item.content}
         </Text>

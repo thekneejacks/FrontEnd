@@ -23,7 +23,8 @@ import axios from 'axios';
 import {useMutation} from '@tanstack/react-query';
 
 const {width, height} = Dimensions.get('window');
-const dummyData = [];
+const dummyData = []; //list of messages
+const initText = '안녕! 오늘은 어떤 일이 있었는지 이야기 해볼까?';
 
 export default function DiaryMainScreen() {
   const navigation = useNavigation();
@@ -35,6 +36,7 @@ export default function DiaryMainScreen() {
   }
 
   const [userDialog, setUserDialog] = useState('');
+  const [voice, setVoice] = useState('');
   const [isWaitingReply, setIsWaitingReply] = useState(false);
   const [isSufficient, setIsSufficient] = useState(false);
   const insets = useSafeAreaInsets();
@@ -42,10 +44,10 @@ export default function DiaryMainScreen() {
     //AddMessage(initdata.data.reply, true);
     dummyData.length = 0; //clear array
     setIsWaitingReply(false);
-    AddFetchedMessage('안녕! 오늘은 어떤 일이 있었는지 이야기 해볼까?');
+    useGetVoiceFetch.mutate();
   }, []);
 
-  function AddFetchedMessage(dialog) {
+  function AddFetchedMessage(dialog, voice) {
     dummyData.shift();
     const messageArraySize = dummyData.length;
     dummyData.unshift({
@@ -54,12 +56,7 @@ export default function DiaryMainScreen() {
       isWaitingReply: false,
       text: dialog,
     });
-    if (
-      useDiaryChatFetch.isSuccess &&
-      useDiaryChatFetch.data.data.data.voice !== undefined
-    ) {
-      synthesizeSpeech(dialog, useDiaryChatFetch.data.data.data.voice);
-    }
+    if (voice !== undefined) synthesizeSpeech(dialog, voice);
   }
 
   function AddWaitingMessage() {
@@ -82,6 +79,7 @@ export default function DiaryMainScreen() {
     });
   }
 
+  //채팅
   const ls = require('local-storage');
   const useDiaryChatFetch = useMutation({
     mutationFn: newTodo => {
@@ -101,7 +99,7 @@ export default function DiaryMainScreen() {
     },
     onSuccess: data => {
       console.log(data.data.data);
-      AddFetchedMessage(data.data.data.reply);
+      AddFetchedMessage(data.data.data.reply, voice);
       if (data.data.data.isSufficient) {
         setIsSufficient(true);
       }
@@ -111,6 +109,38 @@ export default function DiaryMainScreen() {
       console.warn('useDiaryChatFetch ' + error.message);
       AddFetchedMessage(error.message);
       setIsWaitingReply(false);
+    },
+  });
+
+  //목소리 받기
+  const useGetVoiceFetch = useMutation({
+    mutationFn: () => {
+      const token = ls('token');
+      return axios.get('https://sketch-talk.com/setting/tts', {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    },
+    onSuccess: data => {
+      if (data.data.data.voiceType === 'KO_KR_SEOHYEON_NEURAL') {
+        setVoice('ko-KR-SeoHyeonNeural');
+        AddFetchedMessage(initText, 'ko-KR-SeoHyeonNeural');
+      } else if (data.data.data.voiceType === 'KO_KR_GOOKMIN_NEURAL') {
+        setVoice('ko-KR-GookMinNeural');
+        AddFetchedMessage(initText, 'ko-KR-GookMinNeural');
+      } else if (data.data.data.voiceType === 'KO_KR_SUNHI_NEURAL') {
+        setVoice('ko-KR-SunHiNeural');
+        AddFetchedMessage(initText, 'ko-KR-SunHiNeural');
+      } else {
+        setVoice('ko-KR-SeoHyeonNeural');
+        AddFetchedMessage(initText, 'ko-KR-SeoHyeonNeural');
+      }
+    },
+    onError: error => {
+      console.warn('useGetVoiceFetch ' + error.message);
     },
   });
 
