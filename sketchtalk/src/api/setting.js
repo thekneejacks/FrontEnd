@@ -88,3 +88,36 @@ export async function updateWriteNotificationSetting(body) {
 
   return data;
 }
+
+export async function getTtsSetting() {
+  const res = await client.get('/setting/tts');
+  const { data, isSuccess, message } = res.data;
+
+  if (!isSuccess) {
+    throw new Error(message || 'TTS 설정을 불러오지 못했습니다.');
+  }
+
+  return data;
+}
+
+export async function updateTtsSetting(body) {
+  const res = await client.put('/setting/tts', body);
+  const { data, isSuccess, message } = res.data;
+
+  if (!isSuccess) {
+    throw new Error(message || 'TTS 설정 변경에 실패했습니다.');
+  }
+
+  return data;
+}
+
+export async function postInquiry({ title, content }) {
+  const res = await client.post('/setting/inquiry', { title, content });
+  const { data, isSuccess, message } = res.data;
+
+  if (!isSuccess) {
+    throw new Error(message || '문의 전송에 실패했습니다.');
+  }
+  
+  return data;
+}

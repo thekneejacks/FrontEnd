@@ -34,7 +34,7 @@ export default function AppInfoScreen({ navigation }) {
 
         <View style={styles.card}>
             {isLoading && (
-                <Text style={styles.infoText}> 앱 정보를 불러오는 중...</Text>
+                <Text style={styles.infoText}> 앱 정보를 불러오는 중</Text>
             )}
             {isError && (
                 <Text style={styles.infoText}>

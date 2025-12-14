@@ -33,7 +33,7 @@ export async function registerUser({ userId, password, name, birth }) {
     await saveTokens({ accessToken, refreshToken });
   }
 
-  return data; // 필요하면 닉네임 등 사용 가능
+  return data;
 }
 
 // 로그인
@@ -50,7 +50,7 @@ export async function loginUser(body) {
   }
 
   await saveTokens({ accessToken, refreshToken });
-  return data; // nickname, accessToken, refreshToken 반환
+  return data; 
 }
 
 // 로그아웃
@@ -60,8 +60,6 @@ export async function logoutUser(deviceIdentifier) {
   const { data, isSuccess, message } = res.data;
   if (!isSuccess) throw new Error(message || '로그아웃 실패');
 
-  // 서버에서는 새 access/refreshToken을 내려주지만
-  // 클라이언트에서는 로그아웃이므로 삭제
   await clearTokens();
 
   return data;
@@ -88,7 +86,6 @@ export async function updateUser(body) {
     const { data, isSuccess, message } = res.data;
 
     if (!isSuccess) {
-      // 서버가 isSuccess=false를 준 케이스
       throw new Error(message || '회원정보 수정 실패');
     }
 

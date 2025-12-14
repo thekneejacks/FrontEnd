@@ -17,7 +17,6 @@ import Popup from '../../components/popup';
 
 const {width, height} = Dimensions.get('window');
 
-// 실제 FCM 토큰/디바이스 ID로 교체 예정
 const DUMMY_DEVICE_TOKEN = 'dummy-device-token';
 const DUMMY_DEVICE_ID = 'dummy-device-id';
 
@@ -33,10 +32,9 @@ export default function AuthScreen({navigation}) {
   };
 
   const loginMutation = useMutation({
-    mutationFn: loginUser, // auth.js에 정의한 함수 사용
+    mutationFn: loginUser,
     onSuccess: data => {
       console.log('login success:', data);
-      // data.nickname, data.accessToken, data.refreshToken 사용 가능
       navigation.replace('TabNavigator');
     },
     onError: error => {
@@ -51,7 +49,6 @@ export default function AuthScreen({navigation}) {
       return;
     }
 
-    // 서버 스펙에 맞는 요청 바디
     const body = {
       loginId: id.trim(),
       password,
@@ -150,7 +147,6 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 16,
     marginTop: 16,
-    // 카드 그림자
     shadowColor: colors.black,
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.12,

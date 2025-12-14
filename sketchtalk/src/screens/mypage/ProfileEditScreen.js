@@ -82,7 +82,7 @@ export default function ProfileEditScreen({ navigation }) {
             setConfirmOpen(true);
         },
         onError: (err) => {
-            console.log('🔴 회원정보 수정 실패 onError:', err?.response?.data || err.message || err);
+            console.log('회원정보 수정 실패 onError:', err?.response?.data || err.message || err);
             setErrorOpen(true);
         },
     });
@@ -113,7 +113,7 @@ export default function ProfileEditScreen({ navigation }) {
     if (isLoading) {
       return (
         <View>
-          <Text>로딩 중...</Text>
+          <Text style={styles.infoText}>로딩 중</Text>
         </View>
       );
     }
@@ -121,7 +121,7 @@ export default function ProfileEditScreen({ navigation }) {
     if (error) {
       return (
         <View>
-          <Text>오류가 발생했습니다</Text>
+          <Text style={styles.infoText}>오류가 발생했습니다</Text>
         </View>
       );
     }
@@ -362,5 +362,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 50,
+    },
+    infoText:{
+        fontSize: 16,
+        fontFamily: 'MangoDdobak-R',
+        color: colors.redBrown,
     },
 });

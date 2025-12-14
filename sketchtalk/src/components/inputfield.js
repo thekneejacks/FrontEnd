@@ -19,6 +19,7 @@ function InputField({
   helperText,
   helperVisible,
   helperStatus, // 중복확인 멘트
+  line = 1,
   ...props
 }) {
   // 키보드 제한
@@ -45,6 +46,8 @@ function InputField({
     success: colors.primary,
   }[helperStatus];
 
+  const isMultiline = line > 1;
+
   return (
     <View style={style}>
       {label || (helperVisible && helperText) ? (
@@ -58,11 +61,15 @@ function InputField({
         </View>
       ) : null}
 
-      <View style={styles.container}>
+      <View style={[styles.container, { height: 63 * line }]}>
         <TextInput
           style={[
             styles.input,
             hasRightButton && {paddingRight: 110},
+            isMultiline && {
+              textAlignVertical: 'top',
+              height: '100%',
+            },
             inputStyle,
           ]}
           placeholderTextColor={colors.gray400}
@@ -70,6 +77,8 @@ function InputField({
           onChangeText={handleChangeText}
           autoCapitalize="none" // 대문자 방지
           autoCorrect={false} // 자동교정 해지
+          multiline={isMultiline}
+          numberOfLines={line}
           {...props}
         />
 
@@ -89,7 +98,6 @@ function InputField({
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    height: 63,
     borderRadius: 15,
     paddingHorizontal: 15,
     justifyContent: 'center',

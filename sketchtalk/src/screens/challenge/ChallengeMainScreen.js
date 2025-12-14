@@ -8,8 +8,6 @@ import {
   StyleSheet,
   FlatList,
   Pressable,
-  Platform,
-  StatusBar,
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import colors from '../../constants/colors';
@@ -20,7 +18,6 @@ import {getAchievementList} from '../../api/challenge';
 import {getCategoryImage} from '../../constants/challengeIcon';
 
 const {width, height} = Dimensions.get('window');
-//const TOP = Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 0;
 const TOP = 0;
 const GAP = 20;
 const CARD_W = (width - GAP * 3) / 2;
@@ -138,12 +135,11 @@ export default function ChallengeMainScreen({navigation}) {
 
       {isLoading && (
         <View>
-          <Text>도전과제를 불러오는 중이에요...</Text>
         </View>
       )}
       {isError && !isLoading && (
         <View>
-          <Text>도전과제를 불러오지 못했어요. 다시 시도해 주세요.</Text>
+          <Text style={styles.infoText}>도전과제를 불러오지 못했어요. 다시 시도해 주세요.</Text>
         </View>
       )}
 
@@ -232,5 +228,10 @@ const styles = StyleSheet.create({
     fontFamily: 'MangoDdobak-B',
     color: colors.redBrown,
     fontSize: 22,
+  },
+  infoText:{
+      fontSize: 20,
+      fontFamily: 'MangoDdobak-R',
+      color: colors.redBrown,
   },
 });

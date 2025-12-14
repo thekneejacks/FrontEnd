@@ -3,6 +3,7 @@ import { ImageBackground, Dimensions, StyleSheet, View, Text, Pressable, StatusB
 import colors from '../../constants/colors';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MypageField from '../../components/mypagefield';
+import ConfirmButton from '../../components/confirmbutton';
 import { useQuery } from '@tanstack/react-query';
 import { getQuestionList } from '../../api/setting';
 
@@ -104,6 +105,15 @@ export default function FAQScreen({ navigation }) {
                 windowSize={8}
                 removeClippedSubviews
             />
+            <View style={styles.saveBtnWrap}>
+            <ConfirmButton
+                text="질문하기"
+                color={colors.primary}
+                width={width * 0.8}
+                marginBottom={10}
+                onPress={() => navigation.navigate('Question')}
+            />
+            </View>
         </View>
     </ImageBackground>
   );
@@ -165,24 +175,29 @@ answerLabel: {
     color: colors.redBrown,
     fontFamily: 'MangoDdobak-B',
     marginBottom: 6,
-  },
-  answerText: {
+},
+answerText: {
     fontSize: 14,
     fontFamily: 'MangoDdobak-R',
     color: colors.redBrown,
     lineHeight: 20,
-  },
-  answerDivider: {
+},
+answerDivider: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: colors.gray200,
     widith: '100%',
     marginTop: 4,
   },
-  alramText: {
+alramText: {
     fontFamily: 'MangoDdobak-R',
     fontSize: 14,
     color: colors.redBrown,
     textAlign: 'center',
     marginVertical: 8,
-  }
+},
+saveBtnWrap: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 50,
+},
 });

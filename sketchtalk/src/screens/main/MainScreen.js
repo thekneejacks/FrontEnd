@@ -13,14 +13,12 @@ export default function MainScreen({ navigation }) {
       resizeMode="cover"
     >
       <View style={styles.container}>
-        {/* 로고 */}
         <Image
           source={require('../../assets/main_logo.png')}
           style={styles.logo}
         />
         <Text style={styles.mainText}>AI 친구와 대화하며 그림일기 쓰기</Text>
 
-        {/* 시작하기 버튼 */}
         <View style={[styles.startBtnWrapper, {bottom: 100}]}>
           <ConfirmButton
             text = "시작하기"
@@ -43,8 +41,8 @@ export default function MainScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center', // 수직 가운데 정렬
-    alignItems: 'center',     // 수평 가운데 정렬
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 24,
   },
   logo: {
@@ -55,7 +53,6 @@ const styles = StyleSheet.create({
     color: colors.redBrown,
     fontFamily: 'MangoDdobak-R',
   },
-  // 시작하기 버튼 위치
   startBtnWrapper: {
     position: 'absolute',
     left: 0,

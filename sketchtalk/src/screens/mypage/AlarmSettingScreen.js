@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, Dimensions, StyleSheet, View, Text, Pressable, StatusBar, Platform, FlatList, LayoutAnimation } from 'react-native';
+import { ImageBackground, Dimensions, StyleSheet, View, Text, Pressable, StatusBar, Platform, FlatList } from 'react-native';
 import colors from '../../constants/colors';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MypageField from '../../components/mypagefield';
@@ -155,12 +155,12 @@ export default function AlarmSettingScreen({ navigation }) {
         <View style={styles.card}>    
             {loading && (
                 <View>
-                    <Text>로딩중</Text>
+                    <Text style={styles.infoText}> 알람 설정 불러오는 중</Text>
                 </View>
             )}      
             {error && !loading && (
                 <View>
-                    <Text>알람 설정을 불러오지 못했습니다.</Text>
+                    <Text style={styles.infoText}> 알람 설정을 불러오지 못했습니다.</Text>
                 </View>
             )}
             {!loading && !error && (
@@ -234,5 +234,10 @@ card: {
     elevation: 4,
     paddingTop: 18,
     marginBottom: 16,
+},
+infoText:{
+    fontSize: 16,
+    fontFamily: 'MangoDdobak-R',
+    color: colors.redBrown,
 },
 });

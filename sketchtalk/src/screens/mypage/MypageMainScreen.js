@@ -31,7 +31,7 @@ export default function MypageMainScreen({navigation}) {
   if (isLoading) {
     return (
       <View>
-        <Text>로딩 중...</Text>
+        <Text style={styles.infoText}>로딩 중</Text>
       </View>
     );
   }
@@ -39,7 +39,7 @@ export default function MypageMainScreen({navigation}) {
   if (error) {
     return (
       <View>
-        <Text>오류가 발생했습니다</Text>
+        <Text style={styles.infoText}>오류가 발생했습니다</Text>
       </View>
     );
   }
@@ -82,9 +82,14 @@ export default function MypageMainScreen({navigation}) {
           onPress={() => navigation.navigate('ProfileEdit')}
         />
         <MypageField
-          text="알람 세부 설정"
+          text="알림 세부 설정"
           rightType="right"
           onPress={() => navigation.navigate('AlarmSetting')}
+        />
+        <MypageField
+          text="TTS 설정"
+          rightType="right"
+          onPress={() => navigation.navigate('TtsSetting')}
         />
         <MypageField
           text="자주 묻는 질문"
@@ -118,7 +123,7 @@ export default function MypageMainScreen({navigation}) {
             try {
               setLogoutOpen(false);
 
-              // 임시 deviceIdentifier (나중에 실제 unique ID 연결 가능)
+              // 임시 deviceIdentifier
               const deviceIdentifier = 'dummy-device-identifier';
               await logoutUser(deviceIdentifier);
               navigation.replace('AuthStackNavigator');
@@ -223,5 +228,10 @@ const styles = StyleSheet.create({
     height: 8,
     width: '100%',
     backgroundColor: colors.gray200,
+  },
+  infoText:{
+      fontSize: 16,
+      fontFamily: 'MangoDdobak-R',
+      color: colors.redBrown,
   },
 });

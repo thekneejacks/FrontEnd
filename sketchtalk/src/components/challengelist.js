@@ -52,6 +52,7 @@ card: {
     borderRadius: 18,
     paddingVertical: 14,
     paddingHorizontal: 14,
+    paddingTop: 30,
     elevation: 4,
     marginHorizontal: 16,
     marginBottom: 14,

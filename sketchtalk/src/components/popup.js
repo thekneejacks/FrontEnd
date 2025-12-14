@@ -13,15 +13,6 @@ import {
 import Entypo from 'react-native-vector-icons/Entypo';
 import colors from '../constants/colors';
 
-/**
- * Props
- * - visible: boolean
- * - message: string | React.ReactNode
- * - primary?: { text?: string; onPress?: () => void; variant?: 'primary'|'danger'|'gray' }
- * - secondary?: { text?: string; onPress?: () => void; variant?: 'gray'|'primary'|'danger' }
- * - onClose?: () => void
- * - dismissible?: boolean
- */
 export default function Popup({
   visible,
   message,
@@ -87,17 +78,15 @@ export default function Popup({
 
   const content = useMemo(() => (
     <Animated.View style={[styles.card, {transform: [{scale}]}]}>
-      {/* 닫기(X) */}
+
       <Pressable onPress={onClose} style={styles.closeBtn}>
         <Entypo name="cross" size={24} color={colors.redBrown ?? '#777'} />
       </Pressable>
 
-      {/* 본문 메시지 */}
       {typeof message === 'string'
         ? <Text style={styles.message}>{message}</Text>
         : <View style={{marginTop: 8}}>{message}</View>}
 
-      {/* 버튼 */}
       {showTwoButtons ? (
         <View style={styles.row}>
           <View style={{flex: 1}}>

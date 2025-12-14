@@ -12,7 +12,7 @@ export default function AuthStackNavigator() {
     <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Main">
       {/* 홈 */}
       <Stack.Screen name="Main" component={MainScreen} />
-      {/* 로그인 / 회원가입 */}
+
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} />
       <Stack.Screen name="SignupInfo" component={SignupInfoScreen} />
