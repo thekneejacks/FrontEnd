@@ -48,7 +48,7 @@ export const DiaryLoadingScreen = props => (
           marginTop: 20,
         }}>
         일기를 쓸 때 너무 많은 걸 쓰려고 하지 말고, 가장 기억에 남는 한 가지를
-        고르면 좋아! 오늘 친구랑 축구한 것처럼 말이야 :)
+        고르면 좋아!
       </Text>
     </View>
   </View>

@@ -13,6 +13,8 @@ import colors from '../../../constants/colors';
 import ConfirmText from '../../../components/confirmtext';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
+import {useMutation} from '@tanstack/react-query';
+import axios from 'axios';
 import {synthesizeSpeech} from '../api/DiaryTTS';
 
 const {width, height} = Dimensions.get('window');
@@ -35,6 +37,8 @@ const style_list = [
   },
 ];
 
+const ttsText = '어떤 스타일로 그려줄까?';
+
 export default function DiaryEditChooseArtstyleScreen({route}) {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
@@ -45,8 +49,41 @@ export default function DiaryEditChooseArtstyleScreen({route}) {
     });
   }
 
+  //목소리 받기
+  const ls = require('local-storage');
+  const useGetVoiceFetch = useMutation({
+    mutationFn: () => {
+      const token = ls('token');
+      return axios.get('https://sketch-talk.com/setting/tts', {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    },
+    onSuccess: data => {
+      if (data.data.data.voiceType === 'KO_KR_SEOHYEON_NEURAL') {
+        setVoice('ko-KR-SeoHyeonNeural');
+        synthesizeSpeech(ttsText, 'ko-KR-SeoHyeonNeural');
+      } else if (data.data.data.voiceType === 'KO_KR_GOOKMIN_NEURAL') {
+        setVoice('ko-KR-GookMinNeural');
+        synthesizeSpeech(ttsText, 'ko-KR-GookMinNeural');
+      } else if (data.data.data.voiceType === 'KO_KR_SUNHI_NEURAL') {
+        setVoice('ko-KR-SunHiNeural');
+        synthesizeSpeech(ttsText, 'ko-KR-SunHiNeural');
+      } else {
+        setVoice('ko-KR-SeoHyeonNeural');
+        synthesizeSpeech(ttsText, 'ko-KR-SeoHyeonNeural');
+      }
+    },
+    onError: error => {
+      console.warn('useGetVoiceFetch ' + error.message);
+    },
+  });
+
   useEffect(() => {
-    synthesizeSpeech('어떤 스타일로 그려줄까?');
+    useGetVoiceFetch.mutate();
   }, []);
 
   return (

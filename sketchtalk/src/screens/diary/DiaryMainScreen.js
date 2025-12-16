@@ -141,6 +141,7 @@ export default function DiaryMainScreen() {
     },
     onError: error => {
       console.warn('useGetVoiceFetch ' + error.message);
+      AddFetchedMessage('목소리 받아오는 중 오류 발생');
     },
   });
 
