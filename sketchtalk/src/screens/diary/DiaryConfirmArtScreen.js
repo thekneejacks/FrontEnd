@@ -83,6 +83,7 @@ export default function DiaryConfirmArtScreen({route}) {
                   diaryId: data.data.data.diaryId,
                   achieved: data.data.data.achieved,
                   achievedResult: data.data.data.achievedResult,
+                  voice: route.params.voice,
                 },
               },
             },
