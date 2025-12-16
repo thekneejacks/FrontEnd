@@ -198,6 +198,11 @@ export default function DiaryResultScreen({route}) {
     setDownloadStatus(2);
   };
 
+  function removeNewlineFromComment(comment) {
+    if (comment == null) return;
+    else return comment.replace(/(\r\n|\n|\r)/gm, ' ');
+  }
+
   return (
     <ImageBackground
       style={{
@@ -240,9 +245,8 @@ export default function DiaryResultScreen({route}) {
             tutorialOnPress={() => setTutorialModalVisible(false)}
           />
           <CharacterCommentDisplay
-            commentText={useDiaryViewQueryFetch.data.data.data.comment.replace(
-              /(\r\n|\n|\r)/gm,
-              ' ',
+            commentText={removeNewlineFromComment(
+              useDiaryViewQueryFetch.data.data.data.comment,
             )}
             onPress={
               isCalendar
@@ -302,9 +306,8 @@ export default function DiaryResultScreen({route}) {
                   imageUrl={useDiaryViewQueryFetch.data.data.data.imageUrl}
                 />
                 <DownloadCharacterCommentDisplay
-                  commentText={useDiaryViewQueryFetch.data.data.data.comment.replace(
-                    /(\r\n|\n|\r)/gm,
-                    ' ',
+                  commentText={removeNewlineFromComment(
+                    useDiaryViewQueryFetch.data.data.data.comment,
                   )}
                 />
               </View>
