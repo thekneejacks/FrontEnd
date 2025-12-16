@@ -402,7 +402,6 @@ const DiaryTextDisplay = props => (
       textAlignVertical="top"
       maxLength={200}
       onChangeText={props.onChangeContentText}
-      value={props.content}
       style={{
         fontSize: 14,
         fontFamily: 'MangoDdobak-R',
@@ -413,7 +412,9 @@ const DiaryTextDisplay = props => (
         width: width * 0.9 - 2,
         lineHeight: 30,
         marginTop: -10,
-      }}></TextInput>
+      }}>
+      {props.content}
+    </TextInput>
   </View>
 );
 
