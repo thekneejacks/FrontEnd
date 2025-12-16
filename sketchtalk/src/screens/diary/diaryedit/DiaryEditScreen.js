@@ -49,7 +49,7 @@ export default function DiaryEditScreen({route}) {
   function TempNavigateToRedrawScreen() {
     navigation.navigate('DiaryEditChooseArtstyleScreen', {
       confirmArt: true,
-      content: useDiaryEditFetch.data.data.data.content,
+      newContent: useDiaryEditFetch.data.data.data.content,
       ...route.params,
     });
   }

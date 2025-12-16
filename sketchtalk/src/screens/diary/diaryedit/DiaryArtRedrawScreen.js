@@ -24,13 +24,15 @@ export default function DiaryArtRedrawScreen({route}) {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
 
-  const {diaryId, content, style_name, image_url} = route.params;
+  const {diaryId, newContent, style_name, image_url} = route.params;
   useEffect(() => {
+    console.log(diaryId);
+    console.log(newContent);
     console.log(style_name);
     console.log(image_url);
     useDiaryRedrawImageFetch.mutate({
       diaryId: diaryId,
-      content: content,
+      content: newContent,
       style: style_name,
       prevImageUrl: image_url,
     });
