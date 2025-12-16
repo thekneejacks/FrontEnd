@@ -18,7 +18,6 @@ import {
   useNavigation,
   useFocusEffect,
   StackActions,
-  NavigationActions,
 } from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StyleSheet} from 'react-native';

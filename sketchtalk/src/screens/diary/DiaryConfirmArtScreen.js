@@ -13,7 +13,7 @@ import ConfirmText from '../../components/confirmtext';
 import ConfirmButton from '../../components/confirmbutton';
 import colors from '../../constants/colors';
 import {DiaryLoadingScreen} from './component/DiaryLoadingScreen';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, CommonActions} from '@react-navigation/native';
 import {useMutation} from '@tanstack/react-query';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import axios from 'axios';
@@ -70,16 +70,25 @@ export default function DiaryConfirmArtScreen({route}) {
 
     onSuccess: data => {
       setArtConfirmModalVisible(false);
-      navigation.navigate('DiaryResultStackNavigator', {
-        screen: 'DiaryResultScreen',
-        params: {
-          isCalendar: false,
-          diaryId: data.data.data.diaryId,
-          achieved: data.data.data.achieved,
-          achievedResult: data.data.data.achievedResult,
-          ...route.params,
-        },
-      });
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [
+            {
+              name: 'DiaryResultStackNavigator',
+              params: {
+                screen: 'DiaryResultScreen',
+                params: {
+                  isCalendar: false,
+                  diaryId: data.data.data.diaryId,
+                  achieved: data.data.data.achieved,
+                  achievedResult: data.data.data.achievedResult,
+                },
+              },
+            },
+          ],
+        }),
+      );
     },
   });
 

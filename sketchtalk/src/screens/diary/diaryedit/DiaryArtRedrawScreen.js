@@ -13,7 +13,7 @@ import Modal from 'react-native-modal';
 import colors from '../../../constants/colors';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {DiaryLoadingScreen} from '../component/DiaryLoadingScreen';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, CommonActions} from '@react-navigation/native';
 import {useMutation} from '@tanstack/react-query';
 import axios from 'axios';
 
@@ -79,22 +79,38 @@ export default function DiaryArtRedrawScreen({route}) {
 
     onSuccess: () => {
       setArtConfirmModalVisible(false);
-      navigation.navigate('DiaryResultStackNavigator', {
-        screen: 'DiaryResultScreen',
-        params: {
-          ...route.params,
-        },
-      });
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [
+            {
+              name: 'DiaryResultScreen',
+              params: {
+                diaryId: route.params.diaryId,
+                isCalendar: route.params.isCalendar,
+              },
+            },
+          ],
+        }),
+      );
     },
   });
 
   const confirmOldArt = () => {
-    navigation.navigate('DiaryResultStackNavigator', {
-      screen: 'DiaryResultScreen',
-      params: {
-        ...route.params,
-      },
-    });
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          {
+            name: 'DiaryResultScreen',
+            params: {
+              diaryId: route.params.diaryId,
+              isCalendar: route.params.isCalendar,
+            },
+          },
+        ],
+      }),
+    );
   };
 
   const confirmNewArt = () => {

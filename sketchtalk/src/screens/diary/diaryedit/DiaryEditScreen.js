@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {React, useEffect, useState} from 'react';
 import colors from '../../../constants/colors';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, CommonActions} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import ConfirmButton from '../../../components/confirmbutton';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
@@ -29,11 +29,22 @@ export default function DiaryEditScreen({route}) {
     useState(false);
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
+
   function TempNavigateToResultScreen() {
-    navigation.navigate('DiaryResultScreen', {
-      confirmArt: false,
-      ...route.params,
-    });
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          {
+            name: 'DiaryResultScreen',
+            params: {
+              diaryId: route.params.diaryId,
+              isCalendar: route.params.isCalendar,
+            },
+          },
+        ],
+      }),
+    );
   }
   function TempNavigateToRedrawScreen() {
     navigation.navigate('DiaryEditChooseArtstyleScreen', {

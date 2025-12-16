@@ -64,16 +64,12 @@ export default function DiaryEditChooseArtstyleScreen({route}) {
     },
     onSuccess: data => {
       if (data.data.data.voiceType === 'KO_KR_SEOHYEON_NEURAL') {
-        setVoice('ko-KR-SeoHyeonNeural');
         synthesizeSpeech(ttsText, 'ko-KR-SeoHyeonNeural');
       } else if (data.data.data.voiceType === 'KO_KR_GOOKMIN_NEURAL') {
-        setVoice('ko-KR-GookMinNeural');
         synthesizeSpeech(ttsText, 'ko-KR-GookMinNeural');
       } else if (data.data.data.voiceType === 'KO_KR_SUNHI_NEURAL') {
-        setVoice('ko-KR-SunHiNeural');
         synthesizeSpeech(ttsText, 'ko-KR-SunHiNeural');
       } else {
-        setVoice('ko-KR-SeoHyeonNeural');
         synthesizeSpeech(ttsText, 'ko-KR-SeoHyeonNeural');
       }
     },

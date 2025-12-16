@@ -25,6 +25,7 @@ import {useMutation} from '@tanstack/react-query';
 const {width, height} = Dimensions.get('window');
 const dummyData = []; //list of messages
 const initText = '안녕! 오늘은 어떤 일이 있었는지 이야기 해볼까?';
+const initTextTTS = '안녕? 오늘은 어떤 일이 있었는지 이야기 해볼까?';
 
 export default function DiaryMainScreen() {
   const navigation = useNavigation();
@@ -57,6 +58,18 @@ export default function DiaryMainScreen() {
       text: dialog,
     });
     if (voice !== undefined) synthesizeSpeech(dialog, voice);
+  }
+
+  function AddInitMessage(voice) {
+    dummyData.shift();
+    const messageArraySize = dummyData.length;
+    dummyData.unshift({
+      id: messageArraySize,
+      isAI: true,
+      isWaitingReply: false,
+      text: initText,
+    });
+    if (voice !== undefined) synthesizeSpeech(initTextTTS, voice);
   }
 
   function AddWaitingMessage() {
@@ -127,16 +140,16 @@ export default function DiaryMainScreen() {
     onSuccess: data => {
       if (data.data.data.voiceType === 'KO_KR_SEOHYEON_NEURAL') {
         setVoice('ko-KR-SeoHyeonNeural');
-        AddFetchedMessage(initText, 'ko-KR-SeoHyeonNeural');
+        AddInitMessage('ko-KR-SeoHyeonNeural');
       } else if (data.data.data.voiceType === 'KO_KR_GOOKMIN_NEURAL') {
         setVoice('ko-KR-GookMinNeural');
-        AddFetchedMessage(initText, 'ko-KR-GookMinNeural');
+        AddInitMessage('ko-KR-GookMinNeural');
       } else if (data.data.data.voiceType === 'KO_KR_SUNHI_NEURAL') {
         setVoice('ko-KR-SunHiNeural');
-        AddFetchedMessage(initText, 'ko-KR-SunHiNeural');
+        AddInitMessage('ko-KR-SunHiNeural');
       } else {
         setVoice('ko-KR-SeoHyeonNeural');
-        AddFetchedMessage(initText, 'ko-KR-SeoHyeonNeural');
+        AddInitMessage('ko-KR-SeoHyeonNeural');
       }
     },
     onError: error => {
